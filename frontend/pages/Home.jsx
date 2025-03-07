@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBed, faUtensils, faCar,faEnvelope,faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { FaFacebook, FaInstagram,FaTiktok } from 'react-icons/fa';
+import axios from 'axios';
 
 
 function Home() {
@@ -54,6 +55,30 @@ function Home() {
     
 
     try {
+
+      const data = {
+        name,
+        email,
+        phone,
+        subject,
+        message,
+      };
+setLoading(true);
+
+axios.post('',data)
+.then(() => {
+        setLoading(false);
+        //navigate('/Afterfeedback');
+      })
+      .catch((error) => {
+        setLoading(false);
+        toast.error('An error happened. Please check the console.');
+        console.log(error);
+      });
+  
+
+
+
       const response = await fetch('https://api.lahirutours.co.uk/send-email/form1', {
         method: 'POST',
         headers: {
