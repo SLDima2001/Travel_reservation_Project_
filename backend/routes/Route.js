@@ -44,33 +44,30 @@ router.post("/", async (request, response) => {
 
 
 //Route for get all feedbacks from database 
-router.get('/', async (request, response) => {
+router.get("/", async (request, response) => {
     try {
         const feedback = await Model.find({});
-        return response.status(200).json({
-            count: feedback.length,
-            data: feedback
-        });
+        return response.status(200).json(feedback);  // Send array directly
     } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message })
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 });
-
 
 //Route for get one reservation from database by ID
-router.get('/:id', async (request, response) => {
+router.get("/:id", async (req, res) => {
     try {
-        const { id } = request.params;
-
+        const { id } = req.params;
         const feedback = await Model.findById(id);
-        return response.status(200).json(feedback);
+        if (!feedback) {
+            return res.status(404).json({ message: "Contact not found" });
+        }
+        return res.status(200).json(feedback);
     } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message })
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 });
-
 
 //Route for update a feedback
 router.put('/:id', async (request, response) => {
@@ -82,23 +79,23 @@ router.put('/:id', async (request, response) => {
             !request.body.phonenumber ||
             !request.body.subject ||
             !request.body.message ||
-            !request.body.rating
-
+            !request.body.rating 
         ) {
             return response.status(400).send({
-                message: 'Send All required fields:firstname,lastname,email,phonenumber,Date,subject,message',
+                message: 'Send All required fields: name, email, phone, subject, message',
             });
         }
 
         const { id } = request.params;
 
-        const result = await feedback.findByIdAndUpdate(id, request.body);
+        // Use Model instead of contactus
+        const result = await Model.findByIdAndUpdate(id, request.body, { new: true });
 
         if (!result) {
             return response.status(404).json({ message: 'Feedback not found' });
         }
 
-        return response.status(200).send({ message: 'Feedback Updated successfully' });
+        return response.status(200).send({ message: 'Feedback Updated successfully', data: result });
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });

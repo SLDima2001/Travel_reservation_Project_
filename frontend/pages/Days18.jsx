@@ -385,7 +385,7 @@ function Days18() {
     
 
     try {
-      const response = await fetch('https://api.lahirutours.co.uk/send-email/form1', {
+      const response = await fetch('http://localhost:5555/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

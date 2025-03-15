@@ -1,74 +1,55 @@
-import express from  'express';
-import { contactus as Model} from '../models/Model.js';
-import { contactus } from '../models/Model.js';
-
-
+import express from 'express';
+import { contactus as Model } from '../models/ContactModel.js';
+import { contactus } from '../models/ContactModel.js';
 
 const router = express.Router(); 
 
-//Route for save a new feedback
-router.post("/", async (request, response) => {
+// Route for saving a new feedback
+router.post("/", async (req, res) => {
     try {
-        if (
-            !request.body.name ||
-            !request.body.email ||
-            !request.body.phone ||
-            !request.body.subject ||
-            !request.body.message 
-        ) {
-            return response.status(400).send({
-                message: "Send All required fields: firstname,lastname,email,phonenumber,Date,subject,message",
-            });
+        const { name, email, phone, subject, message } = req.body;
+
+        if (!name || !email || !phone || !subject || !message) {
+            return res.status(400).json({ message: "All fields are required" });
         }
-        const newcontactus = {
-            name: request.body.name,
-            email: request.body.email,
-            phone:request.body.phone,
-            subject:request.body.subject,
-            message:request.body.message,
-            
-        };
-        const contactus = await Model.create(newcontactus);
 
-
-        return response.status(201).send(contactus);
+        const newContact = new Model({ name, email, phone, subject, message });
+        const savedContact = await newContact.save();
+        return res.status(201).json(savedContact);
     } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message });
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 });
 
-
-//Route for get all feedbacks from database 
-router.get('/', async (request, response) => {
+// Route to get all contact entries
+router.get("/", async (request, response) => {
     try {
-        const contactus = await Model.find({});
-        return response.status(200).json({
-            count: contactus.length,
-            data: contactus
-        });
+        const contacts = await Model.find({});
+        return response.status(200).json(contacts);  // Send array directly
     } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message })
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 });
 
-
-//Route for get one reservation from database by ID
-router.get('/:id', async (request, response) => {
+// Route to get a single contact by ID
+router.get("/:id", async (req, res) => {
     try {
-        const { id } = request.params;
-
-        const contactus = await Model.findById(id);
-        return response.status(200).json(contactus);
+        const { id } = req.params;
+        const contact = await Model.findById(id);
+        if (!contact) {
+            return res.status(404).json({ message: "Contact not found" });
+        }
+        return res.status(200).json(contact);
     } catch (error) {
-        console.log(error.message);
-        response.status(500).send({ message: error.message })
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
 });
 
 
-//Route for update a feedback
+// Route for updating a feedback
 router.put('/:id', async (request, response) => {
     try {
         if (
@@ -77,34 +58,34 @@ router.put('/:id', async (request, response) => {
             !request.body.phone ||
             !request.body.subject ||
             !request.body.message 
-
         ) {
             return response.status(400).send({
-                message: 'Send All required fields:firstname,lastname,email,phonenumber,Date,subject,message',
+                message: 'Send All required fields: name, email, phone, subject, message',
             });
         }
 
         const { id } = request.params;
 
-        const result = await contactus.findByIdAndUpdate(id, request.body);
+        // Use Model instead of contactus
+        const result = await Model.findByIdAndUpdate(id, request.body, { new: true });
 
         if (!result) {
             return response.status(404).json({ message: 'Feedback not found' });
         }
 
-        return response.status(200).send({ message: 'Feedback Updated successfully' });
+        return response.status(200).send({ message: 'Feedback Updated successfully', data: result });
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });
 
-
-//Route for delete a book
+// Route for deleting a feedback
 router.delete('/:id', async (request, response) => {
     try {
         const { id } = request.params;
 
+        // Use Model instead of contactus
         const result = await contactus.findByIdAndDelete(id);
 
         if (!result) {
@@ -117,6 +98,5 @@ router.delete('/:id', async (request, response) => {
         response.status(500).send({ message: error.message });
     }
 });
-
 
 export default router;

@@ -38,7 +38,7 @@ function ContactUS() {
     
 
     try {
-      const response = await fetch(`https://api.lahirutours.co.uk/send-email/form1`, {
+      const response = await fetch(`http://localhost:5555/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ function ContactUS() {
           setMessage('');
           
         } else {
-          alert('Failed to send email.');
+          //alert('Failed to send email.');
         }
       } else {
        

@@ -69,7 +69,7 @@ const Feedback = ({ backgroundImageUrl }) => {
 
     setLoading(true);
 
-    Axios.post('https://api.lahirutours.co.uk/feedback', data)
+    Axios.post('http://localhost:5555/feedback', data)
       .then(() => {
         setLoading(false);
         navigate('/Afterfeedback');

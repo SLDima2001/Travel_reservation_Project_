@@ -17,9 +17,23 @@ import Days20 from '../pages/Days20.jsx'
 import PaymentSuccess from '../pages/PaymentSuccess.jsx'
 import PaymentCancel from '../pages/PaymentCancel.jsx'
 import Afterfeedback from '../pages/Afterfeedback.jsx'
+import ShowContactus from '../pages/ShowConactus.jsx'
+import BackButton from '../component/BackButton.jsx'
+import Spinner from '../component/Spinner.jsx'
+import ShowFeedback from '../pages/ShowFeedback.jsx'
+import SignIn from '../pages/SignIn.jsx'
+import Register from '../pages/Register.jsx'
+import { AuthContext , AuthProvider } from './AuthContext.jsx'
+import Dashboard from '../pages/DashBoard.jsx'
+import CreateDiscount from '../pages/CreateDiscount.JSX'
 
 
 
+// Protected Route Component
+const ProtectedRoute = ({ element }) => {
+  const { user } = useContext(AuthContext);
+  return user ? element : <Navigate to="/signin" />;
+};
 
 
 
@@ -44,6 +58,12 @@ const App = () => {
       <Route path="/Days20" element={<Days20 />} />
       <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
       <Route path="/PaymentCancel" element={<PaymentCancel />} />
+      <Route path="/ShowContactus" element={<ShowContactus />} />
+      <Route path="/ShowFeedback" element={<ShowFeedback />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
+      <Route path="/creatediscount" element={<CreateDiscount />} />
       </Routes>
     
   )

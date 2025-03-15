@@ -377,7 +377,7 @@ function Days8() {
     
 
     try {
-      const response = await fetch('https://api.lahirutours.co.uk/send-email/form1', {
+      const response = await fetch(`http://localhost:5555/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -400,18 +400,18 @@ function Days8() {
         const responseData = await response.json();
 
         if (responseData.success) {
-          //alert('Email sent successfully!');
-          setName("");
-          setEmail("");
-          setPhone("");
-          setsubject("");
-          setMessage("");
+          
+          setName('');
+          setEmail('');
+          setPhone('');
+          setsubject('');
+          setMessage('');
           
         } else {
-          alert('Failed to send email.');
+          //alert('Failed to send email.');
         }
       } else {
-        
+       
       }
     } catch (error) {
       console.alert(error);

@@ -55,31 +55,7 @@ function Home() {
     
 
     try {
-
-      const data = {
-        name,
-        email,
-        phone,
-        subject,
-        message,
-      };
-setLoading(true);
-
-axios.post('',data)
-.then(() => {
-        setLoading(false);
-        //navigate('/Afterfeedback');
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error('An error happened. Please check the console.');
-        console.log(error);
-      });
-  
-
-
-
-      const response = await fetch('https://api.lahirutours.co.uk/send-email/form1', {
+      const response = await fetch(`http://localhost:5555/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,18 +78,18 @@ axios.post('',data)
         const responseData = await response.json();
 
         if (responseData.success) {
+          
           setName('');
           setEmail('');
           setPhone('');
           setsubject('');
           setMessage('');
           
-          
         } else {
-          alert('Failed to send email.');
+          //alert('Failed to send email.');
         }
       } else {
-        
+       
       }
     } catch (error) {
       console.alert(error);
@@ -288,13 +264,14 @@ axios.post('',data)
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    gap:isMobile? '20px':'50px',
+    gap:isMobile? '20px':'200px',
     marginTop:isMobile?'10px':'40px',
-    //border:'2px solid blue',
+    border:'20px solid blue',
     padding:isMobile?'10px':'20px',
     //boxShadow: '0px 4px 8px rgba(0, 0, 0, 1)',
     borderRadius:isMobile?'10px':'30px',
     marginBottom:isMobile?'100px':'50px',
+    
   };
 
   const packageStyle = {
@@ -627,6 +604,7 @@ axios.post('',data)
   </div>
   
   
+  
 </div>
         
         
@@ -655,7 +633,27 @@ axios.post('',data)
 Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing unique, memorable travel experiences that highlight the rich culture, history, and natural beauty of Sri Lanka. As Gamini’s family, we have explored every corner of this beautiful island, gaining insights and knowledge that we now use to create perfect travel itineraries for our guests.</p>
 
 <br /></p>
-         
+<div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/ShowFeedback" style={bookbuttonstyle}>
+  <b>Feedback</b>
+            </Link> 
+  </div>
+  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/signin" style={bookbuttonstyle}>
+  <b>Sign In</b>
+            </Link> 
+  </div>
+
+  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/register" style={bookbuttonstyle}>
+  <b>Register</b>
+            </Link> 
+  </div>
+  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/creatediscount" style={bookbuttonstyle}>
+  <b>Text</b>
+            </Link> 
+  </div>
           <h2 style={h12Style}><b>Tour Packages</b></h2>
           <div style={packageOptionsStyle}>
 
