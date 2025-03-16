@@ -26,6 +26,8 @@ import Register from '../pages/Register.jsx'
 import { AuthContext , AuthProvider } from './AuthContext.jsx'
 import Dashboard from '../pages/DashBoard.jsx'
 import CreateDiscount from '../pages/CreateDiscount.JSX'
+import PaymentDetails from '../pages/PaymentDetails.jsx'
+import TravelRecommonder from '../pages/TravelRecommender.jsx'
 
 
 
@@ -64,6 +66,8 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
       <Route path="/creatediscount" element={<CreateDiscount />} />
+      <Route path="/paymentdetails" element={<PaymentDetails />} />
+      <Route path="/travelreco" element={<TravelRecommonder />} />
       </Routes>
     
   )

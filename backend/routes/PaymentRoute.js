@@ -66,7 +66,7 @@ router.put('/:id', async (request, response) => {
         const result = await Model.findByIdAndUpdate(id, request.body, { new: true });
 
         if (!result) {
-            return response.status(404).json({ message: 'Feedback not found' });
+            return response.status(404).json({ message: 'Payment not found' });
         }
 
         return response.status(200).send({ message: 'Payment Updated successfully', data: result });

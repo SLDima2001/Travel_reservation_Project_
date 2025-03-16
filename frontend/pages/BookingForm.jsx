@@ -257,7 +257,7 @@ fontSize:isMobile?'1.5em':'3em'
   const makePayment = async () => {
     const stripe = await stripePromise;
 
-    const response = await fetch('https://api.lahirutours.co.uk/create-checkout-session', {
+    const response = await fetch('', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -285,7 +285,7 @@ fontSize:isMobile?'1.5em':'3em'
     }
 
     try {
-      const response = await fetch('https://api.lahirutours.co.uk/send-email/form2', {
+      const response = await fetch('http://localhost:5555/payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

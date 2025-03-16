@@ -60,6 +60,7 @@ const SignIn = () => {
         </div>
 
         <button type="submit" style={styles.button}>Sign In</button>
+        <a href="/register" style={styles.link}>If You Haven't an Account</a>
       </form>
     </div>
   );
@@ -86,6 +87,14 @@ const styles = {
     backgroundSize: "cover",
     filter: "blur(8px)",
     zIndex: 0,
+  },
+  link: {
+    color: "#ff4d4d",
+    fontSize: "16px",
+    display: "block",
+    marginTop: "10px",
+    textDecoration: "none",
+    fontWeight: "bold",
   },
   form: {
     position: "relative",

@@ -9,6 +9,19 @@ import 'dotenv/config';
 import contactusRoute from './routes/ContactusRoute.js';
 import bcrypt from "bcryptjs";
 import bodyParser from 'body-parser';
+import PaymentRoute from './routes/PaymentRoute.js'
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -39,6 +52,32 @@ const User = mongoose.model("User", userSchema);
 
 const TextSchema = new mongoose.Schema({ text: String });
 const TextModel = mongoose.model("Text", TextSchema);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post("/api/save-text", async (req, res) => {
   try {
@@ -132,6 +171,7 @@ app.post("/api/auth/login", async (req, res) => {
 app.use('/feedback', Route);
 app.use('/send-email', emailRoute);
 app.use('/contact', contactusRoute);
+app.use('/payment', PaymentRoute);
 
 
 // Stripe payment route
