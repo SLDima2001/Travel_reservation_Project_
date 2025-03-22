@@ -85,7 +85,7 @@ const AdminDashboard = () => {
         
         <div
           style={styles.sidebarItem}
-          onClick={() => navigate("/adminsignin")}
+          onClick={() => navigate("/")}
           onMouseEnter={(e) => (e.target.style.background = "#666")}
           onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
