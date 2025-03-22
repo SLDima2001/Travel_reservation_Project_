@@ -496,11 +496,14 @@ function Days20() {
     <a href="/ContactUS" style={linkStyle}>Contact</a>
     <a href="/feedback" style={linkStyle}>FAQ</a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={bookbuttonstyle}>
-  <b>Book Now</b>
-            </Link> 
-  </div>
+ <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
+    <Link to="/signin" style={bookbuttonstyle}>
+    <b>Login</b>
+              </Link> 
+              <Link to="/register" style={bookbuttonstyle3}>
+    <b>Register</b>
+              </Link> 
+    </div>
   
   
 </div>

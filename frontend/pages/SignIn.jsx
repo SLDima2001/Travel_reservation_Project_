@@ -21,9 +21,9 @@ const SignIn = () => {
       });
 
       if (response.data.success) {
-        alert("Login Successful!");
-        
-        navigate("/");
+        localStorage.setItem("userEmail", email); // Save email
+  alert("Login Successful!");
+  navigate("/userdashboard");
       } else {
         setError(response.data.message);
       }

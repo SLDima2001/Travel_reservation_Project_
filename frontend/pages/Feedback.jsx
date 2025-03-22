@@ -434,11 +434,14 @@ const Feedback = ({ backgroundImageUrl }) => {
     <a href="/ContactUS" style={styles.linkStyle}>Contact</a>
     <a href="/feedback" style={styles.linkStyle}><b>FAQ</b></a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={styles.bookbuttonstyle}>
-  <b>Book Now</b>
-            </Link> 
-  </div>
+  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
+     <Link to="/signin" style={styles.bookbuttonstyle}>
+     <b>Login</b>
+               </Link> 
+               <Link to="/register" style={styles.bookbuttonstyle3}>
+     <b>Register</b>
+               </Link> 
+     </div>
   
   
 </div>

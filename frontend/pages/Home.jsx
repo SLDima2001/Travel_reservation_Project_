@@ -732,6 +732,12 @@ Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing u
   <b>Admin</b>
             </Link> 
   </div>
+
+  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/BookingForm" style={bookbuttonstyle}>
+  <b>Book</b>
+            </Link> 
+  </div>
           <h2 style={h12Style}><b>Tour Packages</b></h2>
           <div style={packageOptionsStyle}>
 
@@ -902,11 +908,7 @@ Tour PackagesWe offer flexible and engaging packages designed to help you enjoy 
 
 
           <br /><br /><br />
-          <div>
-          <Link to="/BookingForm" style={{...bookbuttonstyle2,':hover':hoverStyle}}>
-          Book Now !
-            </Link> 
-            </div>
+         
             
           
     

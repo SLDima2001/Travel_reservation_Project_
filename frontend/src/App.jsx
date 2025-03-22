@@ -30,6 +30,7 @@ import TravelRecommonder from '../pages/TravelRecommender.jsx'
 import AdminSignIn from '../pages/AdminSignIn.jsx'
 import AdminDashboard from '../pages/AdminDashboard.jsx'
 import UserShowpage from '../pages/UsersShowpage.jsx'
+import UserDashboard from '../pages/UserDashboard.jsx'
 
 
 
@@ -73,6 +74,7 @@ const App = () => {
       <Route path="/adminsignin" element={<AdminSignIn />} />
       <Route path="/admindashboard" element={<AdminDashboard />} />
       <Route path="/usershowpage" element={<UserShowpage />} />
+      <Route path="/userdashboard" element={<UserDashboard />} />
       </Routes>
     
   )

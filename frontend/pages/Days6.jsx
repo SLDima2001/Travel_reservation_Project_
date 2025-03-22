@@ -483,10 +483,10 @@ function Days6() {
     <a href="/feedback" style={linkStyle}>FAQ</a>
   </div>
   <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-     <Link to="/BookingForm" style={bookbuttonstyle}>
+     <Link to="/signin" style={bookbuttonstyle}>
      <b>Login</b>
                </Link> 
-               <Link to="/BookingForm" style={bookbuttonstyle3}>
+               <Link to="/register" style={bookbuttonstyle3}>
      <b>Register</b>
                </Link> 
      </div>
