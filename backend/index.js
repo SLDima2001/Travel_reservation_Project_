@@ -10,11 +10,14 @@ import contactusRoute from './routes/ContactusRoute.js';
 import bcrypt from "bcryptjs";
 import bodyParser from 'body-parser';
 import PaymentRoute from './routes/PaymentRoute.js'
+import OpenAI from 'openai';
+import dotenv from "dotenv";
+import axios from 'axios';
 
 
 
 
-
+dotenv.config();
 
 
 
@@ -28,13 +31,8 @@ import PaymentRoute from './routes/PaymentRoute.js'
 const stripe = new Stripe(stripeSecretKey);
 const app = express();
 app.use(bodyParser.json());
-// Middleware for parsing request body
 app.use(express.json());
-app.use(cors({
-  //origin: ['http://localhost:3000', 'http://localhost:5173'], // Allow your frontend URLs here
- // methods: ['GET', 'POST'],
- // allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(cors());
 
 app.get('/', (req, res) => {
   return res.status(200).send("Welcome to MERN stack");
@@ -50,18 +48,30 @@ const User = mongoose.model("User", userSchema);
 
 
 
+
 const TextSchema = new mongoose.Schema({ text: String });
 const TextModel = mongoose.model("Text", TextSchema);
 
+app.post("/getRecommendations", async (req, res) => {
+  try {
+    const { weather, duration, interests, guestType, budget } = req.body;
+    if (!weather || !duration || !interests || !guestType || !budget) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+    const userPrompt = `Generate a travel itinerary for a ${guestType} traveler visiting Sri Lanka. Weather: ${weather}, Duration: ${duration} days, Interests: ${interests}, Budget: ${budget}.`;
+    
+    const response = await axios.post(
+      "https://openrouter.ai/api/v1/chat/completions",
+      { model: "openai/gpt-4o", messages: [{ role: "user", content: userPrompt }], max_tokens: 300 },
+      { headers: { Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`, "Content-Type": "application/json" } }
+    );
 
-
-
-
-
-
-
-
-
+    res.json({ recommendation: response.data.choices[0].message.content });
+  } catch (error) {
+    console.error("Error in /getRecommendations:", error.message);
+    res.status(500).json({ error: "Internal server error", details: error.message });
+  }
+});
 
 
 
@@ -166,6 +176,36 @@ app.post("/api/auth/login", async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+
+app.get("/api/auth/users", async (req, res) => {
+  try {
+    const users = await User.find({}, "email createdAt"); // Fetch users with only email & createdAt fields
+    res.json({ success: true, users });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ success: false, message: "Error fetching users", error: error.message });
+  }
+});
+
+
+app.delete("/api/auth/users/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, message: "User deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ success: false, message: "Error deleting user", error: error.message });
+  }
+});
+
+
 
 // Routes for other functionality
 app.use('/feedback', Route);

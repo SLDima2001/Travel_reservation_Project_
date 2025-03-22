@@ -23,11 +23,13 @@ import Spinner from '../component/Spinner.jsx'
 import ShowFeedback from '../pages/ShowFeedback.jsx'
 import SignIn from '../pages/SignIn.jsx'
 import Register from '../pages/Register.jsx'
-import { AuthContext , AuthProvider } from './AuthContext.jsx'
 import Dashboard from '../pages/DashBoard.jsx'
 import CreateDiscount from '../pages/CreateDiscount.JSX'
 import PaymentDetails from '../pages/PaymentDetails.jsx'
 import TravelRecommonder from '../pages/TravelRecommender.jsx'
+import AdminSignIn from '../pages/AdminSignIn.jsx'
+import AdminDashboard from '../pages/AdminDashboard.jsx'
+import UserShowpage from '../pages/UsersShowpage.jsx'
 
 
 
@@ -68,6 +70,9 @@ const App = () => {
       <Route path="/creatediscount" element={<CreateDiscount />} />
       <Route path="/paymentdetails" element={<PaymentDetails />} />
       <Route path="/travelreco" element={<TravelRecommonder />} />
+      <Route path="/adminsignin" element={<AdminSignIn />} />
+      <Route path="/admindashboard" element={<AdminDashboard />} />
+      <Route path="/usershowpage" element={<UserShowpage />} />
       </Routes>
     
   )

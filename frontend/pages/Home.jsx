@@ -20,6 +20,34 @@ function Home() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [borderColor, setBorderColor] = useState('#3498db'); // Initial color (blue)
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem('isLoggedIn') === 'true');
+
+
+
+  
+
+
+  useEffect(() => {
+    // Check if the user is authenticated
+    axios.get('http://localhost:5555/api/auth/login')
+      .then((response) => {
+        if (response.data.isAuthenticated) {
+          setIsLoggedIn(true);
+          localStorage.setItem('isLoggedIn', 'true'); // Update local storage
+        } else {
+          setIsLoggedIn(false);
+          localStorage.setItem('isLoggedIn', 'false'); // Update local storage
+        }
+      })
+      .catch((error) => {
+        console.error('Error checking authentication:', error);
+        setIsLoggedIn(false);  // If the API fails, consider the user as a guest
+        localStorage.setItem('isLoggedIn', 'false'); // Update local storage
+      });
+  }, []);
+
+
+ 
 
   const showAlert = () => {
     alert('Thank you for choosing Lahiru Tours! We are excited to assist you in planning your perfect Sri Lankan adventure. Our team will promptly get back to you within 24 hours with a customized itinerary tailored to your interests and needs.For any immediate questions or additional information, please feel free to contact us directly at info@lahirutours.co.uk.We look forward to making your travel dreams come true!Warm regards,The Lahiru Tours Team');
@@ -106,7 +134,16 @@ function Home() {
     setBorderColor('#3498db'); // Reset to blue when not hovering
   };
 
+  const handleLogin = () => {
+    // Simulate a login action
+    setIsLoggedIn(true);
+    localStorage.setItem('isLoggedIn', 'true'); // Update local storage
+  };
 
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem('isLoggedIn', 'false'); // Update local storage
+  };
 
   const appStyle = {
     textAlign: 'center',
@@ -390,7 +427,7 @@ function Home() {
 
   const bookbuttonstyle = {
     display: isMobile ? 'none' : 'block', // Hide on mobile
-    backgroundColor: '#4682B4',
+    backgroundColor: '#90EE90',
       color: 'white',
       padding: '20px 20px',
       border: 'none',
@@ -399,6 +436,17 @@ function Home() {
       fontSize: '1.6em',
       marginTop: '0px',
       };
+    const bookbuttonstyle3 = {
+        display: isMobile ? 'none' : 'block', // Hide on mobile
+        backgroundColor: '#4682B4',
+          color: 'white',
+          padding: '20px 20px',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontSize: '1.6em',
+          marginTop: '0px',
+          };
 
       
   const bookbuttonstyle2 = {
@@ -597,11 +645,18 @@ function Home() {
     <a href="/ContactUS" style={linkStyle}>Contact</a>
     <a href="/feedback" style={linkStyle}>FAQ</a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={bookbuttonstyle}>
-  <b>Book Now</b>
-            </Link> 
-  </div>
+
+  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
+   <Link to="/signin" style={bookbuttonstyle}>
+   <b>Login</b>
+             </Link> 
+             <Link to="/register" style={bookbuttonstyle3}>
+   <b>Register</b>
+             </Link> 
+   </div>
+
+
+  
   
   
   
@@ -668,6 +723,13 @@ Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing u
   <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
   <Link to="/ShowContactus" style={bookbuttonstyle}>
   <b>Contact</b>
+            </Link> 
+  </div>
+
+
+  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
+  <Link to="/adminsignin" style={bookbuttonstyle}>
+  <b>Admin</b>
             </Link> 
   </div>
           <h2 style={h12Style}><b>Tour Packages</b></h2>
@@ -846,22 +908,7 @@ Tour PackagesWe offer flexible and engaging packages designed to help you enjoy 
             </Link> 
             </div>
             
-            <div style={fb1style}>
-              
-            <h1 style={{h0style , fontSize:isMobile?'1.5em':'auto',top:'50px'}}><b>Our Facbook Rewiews</b></h1>
-              <Link to="https://www.facebook.com/profile.php?id=100054495458742&mibextid=ZbWKwL" >
-            
-                  <img style={{width:isMobile?'100%':'70%',display:'inline-block',marginTop:'50px',}} src="https://lahirutours.co.uk/photos/FB.png" alt='Facebook Review Page'/>
-            
-              </Link>
-              
-              
-            <br /><br /><br /><br /><br /><br /><br /><br />
-              <h1 style={{h0style , fontSize:isMobile?'1.5em':'auto',top:'50px'}}><b>Our Facbook Rewiews</b></h1>
-              
-              <img style={{width:'auto',display:'inline-block'}} src="https://lahirutours.co.uk/photos/review.gif" alt="Our Customers Feedbacks" />
-              
-            </div>
+          
     
 
             

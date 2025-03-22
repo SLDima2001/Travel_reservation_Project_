@@ -41,7 +41,7 @@ function About() {
   };
   const bookbuttonstyle = {
     display: isMobile ? 'none' : 'block', // Hide on mobile
-    backgroundColor: '#4682B4',
+    backgroundColor: '#90EE90',
       color: 'white',
       padding: '20px 20px',
       border: 'none',
@@ -49,9 +49,18 @@ function About() {
       cursor: 'pointer',
       fontSize: '1.6em',
       marginTop: '0px',
-      
-    
-  };
+      };
+    const bookbuttonstyle3 = {
+        display: isMobile ? 'none' : 'block', // Hide on mobile
+        backgroundColor: '#4682B4',
+          color: 'white',
+          padding: '20px 20px',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontSize: '1.6em',
+          marginTop: '0px',
+          };
   const bookbuttonstyle2 = {
     display: isMobile ? 'block' : 'none', // Hide on mobile
     backgroundColor: '#4682B4',
@@ -298,11 +307,14 @@ function About() {
     <a href="/ContactUS" style={linkStyle}>Contact</a>
     <a href="/feedback" style={linkStyle}>FAQ</a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={bookbuttonstyle}>
-  <b>Book Now</b>
-            </Link> 
-  </div>
+  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
+     <Link to="/signin" style={bookbuttonstyle}>
+     <b>Login</b>
+               </Link> 
+               <Link to="/register" style={bookbuttonstyle3}>
+     <b>Register</b>
+               </Link> 
+     </div>
   
   
 </div>

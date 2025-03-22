@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const AdminDashboard = () => {
   const navigate = useNavigate();
   const user = { email: "admin@example.com" }; // Dummy user for testing
 
   useEffect(() => {
     if (!user) {
-      navigate("/signin"); // Redirect guest users to sign-in page
+      navigate("/adminsignin"); // Redirect guest users to sign-in page
     }
   }, [user, navigate]);
 
@@ -37,9 +37,6 @@ const Dashboard = () => {
       textAlign: "center",
       transition: "background 0.3s ease",
     },
-    sidebarItemHover: {
-      background: "#666",
-    },
     mainContent: {
       flex: 1,
       padding: "40px",
@@ -51,6 +48,8 @@ const Dashboard = () => {
       gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
       gap: "20px",
       marginTop: "30px",
+      height:'auto',
+      width:'auto',
     },
     card: {
       background: "rgba(255, 255, 255, 0.1)",
@@ -59,9 +58,6 @@ const Dashboard = () => {
       textAlign: "center",
       transition: "transform 0.3s ease",
       cursor: "pointer",
-    },
-    cardHover: {
-      transform: "scale(1.05)",
     },
   };
 
@@ -72,6 +68,7 @@ const Dashboard = () => {
         <h3>Admin Panel</h3>
         <div
           style={styles.sidebarItem}
+          onClick={() => navigate("/admindashboard")}
           onMouseEnter={(e) => (e.target.style.background = "#666")}
           onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
@@ -79,20 +76,16 @@ const Dashboard = () => {
         </div>
         <div
           style={styles.sidebarItem}
+          onClick={() => navigate("/usershowpage")}
           onMouseEnter={(e) => (e.target.style.background = "#666")}
           onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
           Users
         </div>
+        
         <div
           style={styles.sidebarItem}
-          onMouseEnter={(e) => (e.target.style.background = "#666")}
-          onMouseLeave={(e) => (e.target.style.background = "#444")}
-        >
-          Settings
-        </div>
-        <div
-          style={styles.sidebarItem}
+          onClick={() => navigate("/adminsignin")}
           onMouseEnter={(e) => (e.target.style.background = "#666")}
           onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
@@ -109,40 +102,42 @@ const Dashboard = () => {
         <div style={styles.cardContainer}>
           <div
             style={styles.card}
+            onClick={() => navigate("/ShowContactus")}
             onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
           >
-            <h3>Total Users</h3>
-            <p>1,230</p>
+            <h3>Contact Us Details</h3>
           </div>
           <div
             style={styles.card}
+            onClick={() => navigate("/ShowFeedback")}
             onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
           >
-            <h3>Active Sessions</h3>
-            <p>89</p>
+            <h3>Feedback Details</h3>
           </div>
           <div
             style={styles.card}
+            onClick={() => navigate("/paymentdetails")}
             onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
           >
-            <h3>New Messages</h3>
-            <p>15</p>
+            <h3>Payment Details</h3>
           </div>
+
           <div
             style={styles.card}
+            onClick={() => navigate("/creatediscount")}
             onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
           >
-            <h3>Server Status</h3>
-            <p>Online</p>
+            <h3>Discount Create</h3>
           </div>
+          
         </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default AdminDashboard;

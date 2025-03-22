@@ -91,7 +91,7 @@ function Days12() {
   }
   const bookbuttonstyle = {
     display: isMobile ? 'none' : 'block', // Hide on mobile
-    backgroundColor: '#4682B4',
+    backgroundColor: '#90EE90',
       color: 'white',
       padding: '20px 20px',
       border: 'none',
@@ -99,9 +99,18 @@ function Days12() {
       cursor: 'pointer',
       fontSize: '1.6em',
       marginTop: '0px',
-      
-    
-  };
+      };
+    const bookbuttonstyle3 = {
+        display: isMobile ? 'none' : 'block', // Hide on mobile
+        backgroundColor: '#4682B4',
+          color: 'white',
+          padding: '20px 20px',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontSize: '1.6em',
+          marginTop: '0px',
+          };
   
   const bookbuttonstyle2 = {
     display: isMobile ? 'block' : 'none', // Hide on mobile

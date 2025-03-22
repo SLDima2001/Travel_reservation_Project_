@@ -1,35 +1,32 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const SignIn = () => {
-  const [email, setEmail] = useState("");
+const AdminSignIn = () => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  // Hardcoded Admin Users
+  const admins = [
+    { username: "admin1", password: "password123" },
+    { username: "admin2", password: "securePass456" },
+  ];
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
 
-    try {
-      const response = await axios.post("http://localhost:5555/api/auth/login", {
-        email,
-        password,
-      });
+    // Check if the entered username and password match an admin user
+    const isAdmin = admins.some(
+      (admin) => admin.username === username && admin.password === password
+    );
 
-      if (response.data.success) {
-        alert("Login Successful!");
-        
-        navigate("/");
-      } else {
-        setError(response.data.message);
-      }
-    } catch (error) {
-      setError("Invalid login credentials");
-      console.error("Login Error:", error);
+    if (isAdmin) {
+      alert("Login Successful!");
+      navigate("/admindashboard"); // Redirect to Admin Dashboard
+    } else {
+      setError("Invalid admin credentials");
     }
   };
 
@@ -37,28 +34,28 @@ const SignIn = () => {
     <div style={styles.container}>
       <div style={styles.background}></div>
       <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.title}>Sign In</h2>
+        <h2 style={styles.title}>Admin Sign In</h2>
         {error && <p style={styles.error}>{error}</p>}
-        
+
         <div style={styles.formGroup}>
-          <label style={styles.label}>Email:</label>
-          <input 
-            type="email" 
-            style={styles.input} 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
+          <label style={styles.label}>Username:</label>
+          <input
+            type="text"
+            style={styles.input}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
           />
         </div>
 
         <div style={styles.formGroup}>
           <label style={styles.label}>Password:</label>
-          <input 
-            type="password" 
-            style={styles.input} 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
+          <input
+            type="password"
+            style={styles.input}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
 
@@ -69,7 +66,7 @@ const SignIn = () => {
   );
 };
 
-// Styles with background effects and animations
+// Stylish UI with Animations
 const styles = {
   container: {
     display: "flex",
@@ -78,7 +75,7 @@ const styles = {
     height: "100vh",
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #ff9966, #ff5e62)",
+    background: "linear-gradient(135deg, #6a11cb, #2575fc)", // New gradient colors
   },
   background: {
     position: "absolute",
@@ -86,25 +83,17 @@ const styles = {
     height: "100%",
     top: 0,
     left: 0,
-    background: "url('https://source.unsplash.com/1600x900/?abstract,technology')",
+    background: "url('https://source.unsplash.com/1600x900/?technology,abstract')",
     backgroundSize: "cover",
     filter: "blur(8px)",
     zIndex: 0,
   },
-  link: {
-    color: "#ff4d4d",
-    fontSize: "16px",
-    display: "block",
-    marginTop: "10px",
-    textDecoration: "none",
-    fontWeight: "bold",
-  },
   form: {
     position: "relative",
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: "30px",
     borderRadius: "12px",
-    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
+    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.3)", // Slightly darker shadow
     width: "350px",
     textAlign: "center",
     zIndex: 1,
@@ -145,15 +134,39 @@ const styles = {
     borderRadius: "5px",
     fontSize: "16px",
     cursor: "pointer",
-    transition: "background 0.3s ease",
+    transition: "background 0.3s ease, transform 0.3s ease",
   },
   buttonHover: {
     backgroundColor: "#e04e50",
+    transform: "scale(1.05)",
   },
   error: {
     color: "red",
     marginBottom: "10px",
   },
+  link: {
+    color: "#ff4d4d",
+    fontSize: "16px",
+    display: "block",
+    marginTop: "10px",
+    textDecoration: "none",
+    fontWeight: "bold",
+    transition: "color 0.3s ease",
+  },
+  linkHover: {
+    color: "#e04e50",
+  },
 };
 
-export default SignIn;
+// Adding hover effects using JavaScript
+const handleMouseEnter = (e) => {
+  e.target.style.backgroundColor = styles.buttonHover.backgroundColor;
+  e.target.style.transform = styles.buttonHover.transform;
+};
+
+const handleMouseLeave = (e) => {
+  e.target.style.backgroundColor = styles.button.backgroundColor;
+  e.target.style.transform = "scale(1)";
+};
+
+export default AdminSignIn;
