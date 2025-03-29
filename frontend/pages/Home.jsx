@@ -8,6 +8,7 @@ import { FaFacebook, FaInstagram,FaTiktok } from 'react-icons/fa';
 import axios from 'axios';
 
 
+
 function Home() {
   const [isNavbarVisible, setIsNavbarVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -220,6 +221,7 @@ function Home() {
     padding: '10px 0px 0px  ',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
     //zIndex: '2000',
+    
   };
   
   const linkStyle = {
@@ -230,6 +232,7 @@ function Home() {
   
   const navLinksStyle = {
     display: 'flex',
+    
     alignItems: 'center',
   };
   const buttonContainerStyle = {
@@ -596,45 +599,14 @@ function Home() {
 
 
 
-      <div style={header1style} >
-      <div style={navbarStyle}>
-      {/* Left Section: Logo */}
-      <div>
-        <h1 style={{ margin: '0', padding: '0', fontSize: '1em' }}> <b> info@lahirutours.co.uk</b></h1>
-      </div>
-      
-      {/* Center Section: Navigation Links */}
-      <div style={navLinksStyle}>
-       
-      </div>
-      
-      {/* Right Section: Buttons */}
-      <div style={buttonContainerStyle}>
-      <a href="https://www.facebook.com/share/TLHsJswwmcxzvuiA/?mibextid=WC7FNe" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaFacebook size={30} />
-        </a>
-        <a href="https://www.instagram.com/lahiru_tours_sri_lanka?igsh=azYyenZxaHZ6aW1y&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaInstagram size={30} />
-        </a>
-        <a href="https://vm.tiktok.com/ZGevyQ8eB/" target="_blank" rel="noopener noreferrer" style={{  padding: '10px 20px', cursor: 'pointer' }} >
-          <FaTiktok size={30}  />
-  </a>
-
-        {/* Add more buttons as needed */}
-      </div>
-
-
-    </div>
-
-            
-      </div>
+     
       
 
       <section style={headerStyle}>
       <div style={navbarStyle2}>
   {/* Left Section: Logo */}
   <div>
-  <img src="https://lahirutours.co.uk/photos/logo.gif" alt="Logo" style={logoImgStyle} />
+  <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
   </div>
   
   {/* Center Section: Navigation Links */}
@@ -643,23 +615,17 @@ function Home() {
     <a href="/About" style={linkStyle}>About Us</a>
     <a href="/TourPackages" style={linkStyle}>Tour Packages</a>
     <a href="/ContactUS" style={linkStyle}>Contact</a>
-    <a href="/feedback" style={linkStyle}>FAQ</a>
+    <a href="/feedback" style={linkStyle}>Feedback</a>
   </div>
 
   <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-   <Link to="/signin" style={bookbuttonstyle}>
-   <b>Login</b>
+              <Link to="/signin" style={bookbuttonstyle}>
+                   <b>Login</b>
              </Link> 
              <Link to="/register" style={bookbuttonstyle3}>
-   <b>Register</b>
+                     <b>Register</b>
              </Link> 
    </div>
-
-
-  
-  
-  
-  
 </div>
         
         
