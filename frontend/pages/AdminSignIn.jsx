@@ -75,7 +75,7 @@ const styles = {
     height: "100vh",
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #6a11cb, #2575fc)", // New gradient colors
+    background: "linear-gradient(135deg,rgb(136, 199, 225),rgb(172, 166, 166))",
   },
   background: {
     position: "absolute",
