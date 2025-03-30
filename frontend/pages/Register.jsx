@@ -91,7 +91,8 @@ const styles = {
     height: "100vh",
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg, #667eea, #764ba2)",
+    
+    background: "linear-gradient(135deg,rgb(136, 199, 225),rgb(172, 166, 166))",
   },
   background: {
     position: "absolute",
@@ -117,7 +118,7 @@ const styles = {
   },
   title: {
     marginBottom: "20px",
-    color: "#1e3a8a",
+    color: "#333",
     fontSize: "24px",
     fontWeight: "bold",
     textTransform: "uppercase",
@@ -152,7 +153,7 @@ const styles = {
   button: {
     width: "100%",
     padding: "12px",
-    backgroundColor: "#764ba2",
+    backgroundColor: "rgba(35, 115, 206, 0.7)",
     color: "white",
     border: "none",
     borderRadius: "6px",

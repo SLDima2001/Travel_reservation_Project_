@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../component/BackButton";
+import html2pdf from "html2pdf.js";  // Import html2pdf.js
 
 const PaymentDetails = () => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const PaymentDetails = () => {
       .catch((error) => console.error("Error fetching payments:", error));
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState(""); // For search functionality
   const handleDelete = async (id) => {
     try {
       await fetch(`http://localhost:5555/payment/${id}`, {
@@ -72,6 +74,15 @@ const PaymentDetails = () => {
     } catch (error) {
       console.error("Error updating payment:", error);
     }
+  };
+
+  const generatePDF = () => {
+    const element = document.getElementById("pdf-content");  // Select the content to be converted to PDF
+
+    // Use html2pdf.js to generate the PDF
+    html2pdf()
+      .from(element)
+      .save("payment_details.pdf");
   };
 
   const styles = {
@@ -196,24 +207,18 @@ const PaymentDetails = () => {
         <div
           style={styles.sidebarItem}
           onClick={() => navigate("/admindashboard")}
-          onMouseEnter={(e) => (e.target.style.background = "#666")}
-          onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
           Dashboard
         </div>
         <div
           style={styles.sidebarItem}
           onClick={() => navigate("/usershowpage")}
-          onMouseEnter={(e) => (e.target.style.background = "#666")}
-          onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
           Users
         </div>
         <div
           style={styles.sidebarItem}
           onClick={() => navigate("/adminsignin")}
-          onMouseEnter={(e) => (e.target.style.background = "#666")}
-          onMouseLeave={(e) => (e.target.style.background = "#444")}
         >
           Logout
         </div>
@@ -222,108 +227,56 @@ const PaymentDetails = () => {
       {/* Main Content */}
       <div style={styles.mainContent}>
         <h2 style={styles.title}>Customer Payment Details</h2>
-        
+
+        <button
+          onClick={generatePDF}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#4CAF50",
+            color: "#fff",
+            border: "none",
+            cursor: "pointer",
+            marginBottom: "20px",
+          }}
+        >
+          Generate PDF
+        </button>
+
         {loading ? (
           <p style={styles.loading}>Loading...</p>
         ) : (
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.th}>Name</th>
-                <th style={styles.th}>Email</th>
-                <th style={styles.th}>Phone</th>
-                <th style={styles.th}>Package</th>
-                <th style={styles.th}>Persons</th>
-                <th style={styles.th}>From</th>
-                <th style={styles.th}>To</th>
-                <th style={styles.th}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payments.map((payment) => (
-                <tr key={payment._id}>
-                  <td style={styles.td}>{payment.name}</td>
-                  <td style={styles.td}>{payment.email}</td>
-                  <td style={styles.td}>{payment.phoneNumber}</td>
-                  <td style={styles.td}>{payment.selectedPackage}</td>
-                  <td style={styles.td}>{payment.persons}</td>
-                  <td style={styles.td}>{new Date(payment.fromDate).toLocaleDateString()}</td>
-                  <td style={styles.td}>{new Date(payment.toDate).toLocaleDateString()}</td>
-                  <td style={styles.td}>
-                    <button style={styles.editBtn} onClick={() => handleEditClick(payment)}>Edit</button>
-                    <button style={styles.deleteBtn} onClick={() => handleDelete(payment._id)}>Delete</button>
-                  </td>
+          <div id="pdf-content"> {/* Wrapping content inside an ID for html2pdf */}
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Name</th>
+                  <th style={styles.th}>Email</th>
+                  <th style={styles.th}>Phone</th>
+                  <th style={styles.th}>Package</th>
+                  <th style={styles.th}>Persons</th>
+                  <th style={styles.th}>From</th>
+                  <th style={styles.th}>To</th>
+                  <th style={styles.th}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-
-        {editingPayment && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modal}>
-              <h3 style={{ color: "#ffffff" }}>Edit Payment</h3>
-              <form onSubmit={handleEditSubmit}>
-                <input
-                  type="text"
-                  name="name"
-                  value={editData.name}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={editData.email}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="number"
-                  name="phoneNumber"
-                  value={editData.phoneNumber}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="text"
-                  name="selectedPackage"
-                  value={editData.selectedPackage}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="number"
-                  name="persons"
-                  value={editData.persons}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="date"
-                  name="fromDate"
-                  value={editData.fromDate}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <input
-                  type="date"
-                  name="toDate"
-                  value={editData.toDate}
-                  onChange={handleEditChange}
-                  required
-                  style={{ margin: "5px", padding: "10px", borderRadius: "5px", border: "1px solid #444", backgroundColor: "#333", color: "#ffffff" }}
-                />
-                <button type="submit" style={styles.saveBtn}>Save</button>
-                <button type="button" onClick={() => setEditingPayment(null)} style={styles.cancelBtn}>Cancel</button>
-              </form>
-            </div>
+              </thead>
+              <tbody>
+                {payments.map((payment) => (
+                  <tr key={payment._id}>
+                    <td style={styles.td}>{payment.name}</td>
+                    <td style={styles.td}>{payment.email}</td>
+                    <td style={styles.td}>{payment.phoneNumber}</td>
+                    <td style={styles.td}>{payment.selectedPackage}</td>
+                    <td style={styles.td}>{payment.persons}</td>
+                    <td style={styles.td}>{new Date(payment.fromDate).toLocaleDateString()}</td>
+                    <td style={styles.td}>{new Date(payment.toDate).toLocaleDateString()}</td>
+                    <td style={styles.td}>
+                      <button style={styles.editBtn} onClick={() => handleEditClick(payment)}>Edit</button>
+                      <button style={styles.deleteBtn} onClick={() => handleDelete(payment._id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

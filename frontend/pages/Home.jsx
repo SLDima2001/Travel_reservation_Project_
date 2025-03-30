@@ -683,56 +683,7 @@ const linkStyle = {
 Travel Sri Lanka was born from a passion for sharing the island’s beauty, culture, and heritage. With years of local expertise, we craft unforgettable journeys from golden beaches to ancient wonders. Let us turn your Sri Lankan adventure into a cherished memory.</p>
 
 <br /></p>
-<div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/ShowFeedback" style={bookbuttonstyle}>
-  <b>Feedback</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/signin" style={bookbuttonstyle}>
-  <b>Sign In</b>
-            </Link> 
-  </div>
 
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/register" style={bookbuttonstyle}>
-  <b>Register</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/creatediscount" style={bookbuttonstyle}>
-  <b>Text</b>
-            </Link> 
-  </div>
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/paymentdetails" style={bookbuttonstyle}>
-  <b>Payments</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/travelreco" style={bookbuttonstyle}>
-  <b>travel</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/ShowContactus" style={bookbuttonstyle}>
-  <b>Contact</b>
-            </Link> 
-  </div>
-
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/adminsignin" style={bookbuttonstyle}>
-  <b>Admin</b>
-            </Link> 
-  </div>
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={bookbuttonstyle}>
-  <b>Book</b>
-            </Link> 
-  </div>
           <h2 style={h12Style}><b>Tour Packages</b></h2>
           <div style={packageOptionsStyle}>
 

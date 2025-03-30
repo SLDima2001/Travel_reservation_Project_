@@ -145,7 +145,7 @@ const ShowContactUs = () => {
   
     const pdf = new jsPDF({
       unit: 'mm', // Measurement units in millimeters
-      format: 'a2', // Page size A4
+      format: 'a1', // Page size A4
     });
   
     // Extracting the table data
@@ -169,14 +169,14 @@ const ShowContactUs = () => {
     pdf.setFontSize(12);
     pdf.setFont("helvetica", "bold");
     pdf.setFillColor(76, 175, 80); // Green color for the header background
-    pdf.rect(margin, yOffset - 8, 210, 10, "F"); // Header background color
+    pdf.rect(margin, yOffset - 8, 500, 10, "F"); // Header background color
     pdf.setTextColor(255, 255, 255); // White text for headers
     pdf.text(headers[0], margin + 5, yOffset);
-    pdf.text(headers[1], margin + 40, yOffset);
-    pdf.text(headers[2], margin + 80, yOffset);
-    pdf.text(headers[3], margin + 120, yOffset);
-    pdf.text(headers[4], margin + 160, yOffset);
-    pdf.text(headers[5], margin + 200, yOffset);
+    pdf.text(headers[1], margin + 80, yOffset);
+    pdf.text(headers[2], margin + 140, yOffset);
+    pdf.text(headers[3], margin + 220, yOffset);
+    pdf.text(headers[4], margin + 300, yOffset);
+    pdf.text(headers[5], margin + 360, yOffset);
     yOffset += 10;
   
     // Add table rows with better formatting
@@ -186,13 +186,13 @@ const ShowContactUs = () => {
   
     // Loop through rows (skipping the header row)
     tableData.slice(1).forEach(row => {
-      pdf.rect(margin, yOffset, 200, 10); // Cell border
+      pdf.rect(margin, yOffset, 500, 10); // Cell border
       pdf.text(row[0], margin + 5, yOffset + 6); // ID
-      pdf.text(row[1], margin + 40, yOffset + 6); // Name
-      pdf.text(row[2], margin + 80, yOffset + 6); // Email
-      pdf.text(row[3], margin + 120, yOffset + 6); // Phone
-      pdf.text(row[4], margin + 160, yOffset + 6); // Subject
-      pdf.text(row[5], margin + 210, yOffset + 6);
+      pdf.text(row[1], margin + 80, yOffset + 6); // Name
+      pdf.text(row[2], margin + 140, yOffset + 6); // Email
+      pdf.text(row[3], margin + 220, yOffset + 6); // Phone
+      pdf.text(row[4], margin + 300, yOffset + 6); // Subject
+      pdf.text(row[5], margin + 360, yOffset + 6);
       yOffset += 10;
     });
   
