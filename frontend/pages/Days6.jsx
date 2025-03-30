@@ -737,9 +737,7 @@ The next part of this exciting Sri Lanka tour package is a visit to Galle, a cit
               </div>
               
             </div>
-            <div>
-            <Link to="/BookingForm" style={bookbuttonstyle2}> <b>Book Now</b></Link>
-            </div>
+            
             
           
           
