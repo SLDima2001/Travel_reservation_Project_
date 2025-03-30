@@ -272,7 +272,7 @@ function ContactUS() {
 
   const tourPackagesStyle = {
     padding: '20px',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: '#e0f7fa',
     justifyContent: 'center',
     backgroundSize: 'cover',
     //height: '100vh',
