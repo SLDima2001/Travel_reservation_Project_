@@ -257,7 +257,7 @@ fontSize:isMobile?'1.5em':'3em'
   const makePayment = async () => {
     const stripe = await stripePromise;
 
-    const response = await fetch('', {
+    const response = await fetch('http://localhost:5555/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -272,7 +272,7 @@ fontSize:isMobile?'1.5em':'3em'
     });
 
     if (result.error) {
-      alert(result.error.message);
+      //alert(result.error.message);
     }
   };
 
@@ -299,9 +299,10 @@ fontSize:isMobile?'1.5em':'3em'
 
       alert('Booking successful!');
       await makePayment();
+      Navigate("/")
     } catch (error) {
       console.error('Error booking tour:', error);
-      alert('Booking failed!');
+      //alert('Booking failed!');
     }
   };
 
