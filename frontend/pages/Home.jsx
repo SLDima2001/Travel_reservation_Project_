@@ -210,31 +210,36 @@ function Home() {
     zIndex: '1000',
   };
   const navbarStyle2 = {
-    fontSize:isMobile?'15px':'auto',
+    fontSize: isMobile ? '15px' : 'auto',
     backgroundColor: 'white',
     color: 'white',
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start', // Aligns content to the left
     alignItems: 'center',
-    width:'auto',
+    width: 'auto',
     height: '120px',
-    padding: '10px 0px 0px  ',
+    padding: '10px 0px 0px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
-    //zIndex: '2000',
+    // zIndex: '2000',
     
-  };
+};
+
   
-  const linkStyle = {
-    color: 'black',
-    textDecoration: 'none',
-    margin: '0 10px',
-  };
+const linkStyle = {
+  color: 'black',
+  textDecoration: 'none',
+  margin: '0 10px',
+  whiteSpace: 'nowrap', // Ensures single-line display
+};
+
   
   const navLinksStyle = {
     display: 'flex',
-    
     alignItems: 'center',
-  };
+    justifyContent: 'flex-start',
+    gap:'20px',
+};
+
   const buttonContainerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -618,14 +623,38 @@ function Home() {
     <a href="/feedback" style={linkStyle}>Feedback</a>
   </div>
 
-  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-              <Link to="/signin" style={bookbuttonstyle}>
-                   <b>Login</b>
-             </Link> 
-             <Link to="/register" style={bookbuttonstyle3}>
-                     <b>Register</b>
-             </Link> 
-   </div>
+  <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
+    <Link to="/signin" style={{ 
+        padding: '10px 20px', // Medium size padding
+        fontSize: '16px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#4CAF50', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
+        cursor: 'pointer',
+        minWidth: '100px', // Ensures consistent size
+        textAlign: 'center' 
+    }}>
+        <b>Login</b>
+    </Link>
+    <Link to="/register" style={{ 
+        padding: '10px 20px', // Medium size padding
+        fontSize: '16px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#2196F3', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
+        cursor: 'pointer',
+        minWidth: '100px', // Ensures consistent size
+        textAlign: 'center' 
+    }}>
+        <b>Register</b>
+    </Link>
+</div>
+
+
 </div>
         
         
@@ -647,11 +676,11 @@ function Home() {
           
          <p style={{fontSize:isMobile?'1em':'1.5em',fontFamily:'Agraham',width:'auto',backgroundColor:'',}}><b>
           
-          <p style={{fontSize:'1.2em',}}>Welcome to Lahiru Tours</p></b><br />
-<p>At Lahiru Tours, we pride ourselves on being more than just a travel agency. As a family-run business, we bring a personal touch and heartfelt dedication to every journey we plan. Our passion for travel and commitment to exceptional customer service stem from our deep love for Sri Lanka, and we are eager to share its wonders with you.</p>
+          <p style={{fontSize:'1.2em',}}>Welcome to Travel Sri Lanka</p></b><br />
+<p>At Travel Sri Lanka, we pride ourselves on being more than just a travel agency. As a family-run business, we bring a personal touch and heartfelt dedication to every journey we plan. Our passion for travel and commitment to exceptional customer service stem from our deep love for Sri Lanka, and we are eager to share its wonders with you.</p>
 
 <p><br /><b>Our Story </b><br />
-Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing unique, memorable travel experiences that highlight the rich culture, history, and natural beauty of Sri Lanka. As Gamini’s family, we have explored every corner of this beautiful island, gaining insights and knowledge that we now use to create perfect travel itineraries for our guests.</p>
+Travel Sri Lanka was born from a passion for sharing the island’s beauty, culture, and heritage. With years of local expertise, we craft unforgettable journeys from golden beaches to ancient wonders. Let us turn your Sri Lankan adventure into a cherished memory.</p>
 
 <br /></p>
 <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
@@ -844,7 +873,7 @@ Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing u
             </div><br />
 
             <div style={{textAlign:isMobile?'justify':'center'}}><br /><br />
-            <p><p style={{fontSize:isMobile?'25px':'1.5em'}}> <b> Why Choose Lahiru Tours?</b></p><br />
+            <p><p style={{fontSize:isMobile?'25px':'1.5em'}}> <b> Why Choose Travel Sri Lanka?</b></p><br />
             <p style={{fontSize:isMobile?'1.1em':'1.3em'}}>
 <b>Personal Touch:</b> As a family-run business, we treat every guest as an extension of our family. This means you receive personalized service and attention to detail that larger companies can't offer. <br />
 <b>Expert Knowledge:</b> Our extensive local knowledge allows us to craft unique itineraries that showcase the best of Sri Lanka. Whether it's hidden gems or popular landmarks, we ensure your experience is authentic and enriching.<br />
@@ -857,12 +886,12 @@ Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing u
 <b>Adventure Trips:</b> From surfing and hiking to wildlife safaris, experience thrilling adventures.<br />
 <b>Family Vacations:</b> Fun and engaging activities for travelers of all ages.<br />
 <b>Luxury Travel:</b> Enjoy the finest accommodations and exclusive experiences. <br /><br />
-Join the Lahiru Tours Family
-Embark on a journey with Lahiru Tours and discover the true essence of Sri Lanka. Let our family take care of yours, and create memories that will last a lifetime. We look forward to welcoming you to our beautiful island and providing you with an exceptional travel experience.</p>
+Join Travel Sri Lanka Family
+Embark on a journey with Travel Sri Lanka and discover the true essence of Sri Lanka. Let our family take care of yours, and create memories that will last a lifetime. We look forward to welcoming you to our beautiful island and providing you with an exceptional travel experience.</p>
 
 <br /><p style={{fontSize:isMobile?'1.3em':'1.2em'}}>Contact Us Today
 
-Lahiru Tours – Where Family, Passion, and Adventure Meet!</p></p>
+Travel Sri Lanka – Where Family, Passion, and Adventure Meet!</p></p>
             </div>
             
              <br /><br />
@@ -946,9 +975,9 @@ Tour PackagesWe offer flexible and engaging packages designed to help you enjoy 
           <h4 style={footerSectionTitleStyle}>Contact Us</h4>
           
           <p><u>
-            info@lahirutours.co.uk<br />
-            admin@lahirutours.co.uk <br />
-            payments@lahirutours.co.uk <br />
+            info@travelsrilanka.co.uk<br />
+            admin@travelsrilanka.co.uk <br />
+            payments@travelsrilanka.co.uk <br />
            </u>
           </p>
         </div>

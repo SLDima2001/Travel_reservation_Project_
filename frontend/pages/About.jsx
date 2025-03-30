@@ -124,12 +124,16 @@ function About() {
     color: 'black',
     textDecoration: 'none',
     margin: '0 10px',
-  };
+    whiteSpace: 'nowrap', // Ensures single-line display
+};
+
   
   const navLinksStyle = {
     display: 'flex',
     alignItems: 'center',
-  };
+    justifyContent: 'flex-start',
+    gap:'20px',
+};
   const buttonContainerStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -262,33 +266,7 @@ function About() {
     
 
       <header style={header1style} >
-      <div style={navbarStyle}>
-      {/* Left Section: Logo */}
-      <div>
-        <h1 style={{ margin: '0', padding: '0', fontSize: '1em' }}><b>info@lahirutours.co.uk</b></h1>
-      </div>
       
-      {/* Center Section: Navigation Links */}
-      <div style={navLinksStyle}>
-       
-      </div>
-      
-      {/* Right Section: Buttons */}
-      <div style={buttonContainerStyle}>
-      <a href="https://www.facebook.com/share/TLHsJswwmcxzvuiA/?mibextid=WC7FNe" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaFacebook size={30} />
-        </a>
-        <a href="https://www.instagram.com/lahiru_tours_sri_lanka?igsh=azYyenZxaHZ6aW1y&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaInstagram size={30} />
-        </a>
-        <a href="https://vm.tiktok.com/ZGevyQ8eB/" target="_blank" rel="noopener noreferrer" style={{  padding: '10px 20px', cursor: 'pointer' }} >
-          <FaTiktok size={30}  />
-  </a>
-
-        {/* Add more buttons as needed */}
-      </div>
-
-    </div>
 
             
       </header>
@@ -296,7 +274,7 @@ function About() {
       <div style={navbarStyle2}>
   {/* Left Section: Logo */}
   <div>
-  <img src="https://lahirutours.co.uk/photos/logo.gif" alt="Logo" style={logoImgStyle} />
+  <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
   </div>
   
   {/* Center Section: Navigation Links */}
@@ -305,16 +283,39 @@ function About() {
     <a href="/About" style={linkStyle}><b>About Us</b></a>
     <a href="/TourPackages" style={linkStyle}>Tour Packages</a>
     <a href="/ContactUS" style={linkStyle}>Contact</a>
-    <a href="/feedback" style={linkStyle}>FAQ</a>
+    <a href="/feedback" style={linkStyle}>Feedback</a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-     <Link to="/signin" style={bookbuttonstyle}>
-     <b>Login</b>
-               </Link> 
-               <Link to="/register" style={bookbuttonstyle3}>
-     <b>Register</b>
-               </Link> 
-     </div>
+  <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
+    <Link to="/signin" style={{ 
+        padding: '10px 20px', // Medium size padding
+        fontSize: '16px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#4CAF50', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
+        cursor: 'pointer',
+        minWidth: '100px', // Ensures consistent size
+        textAlign: 'center' 
+    }}>
+        <b>Login</b>
+    </Link>
+    <Link to="/register" style={{ 
+        padding: '10px 20px', // Medium size padding
+        fontSize: '16px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#2196F3', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
+        cursor: 'pointer',
+        minWidth: '100px', // Ensures consistent size
+        textAlign: 'center' 
+    }}>
+        <b>Register</b>
+    </Link>
+</div>
+
   
   
 </div>
@@ -330,15 +331,15 @@ function About() {
        
         <div style={{alignItems:'center'}}>
         <p style={{pStyle1,fontSize:isMobile?'40px':'40px'}}>
-       <br /><br /><b> Welcome to Lahiru Tours: Your Gateway to Sri Lanka </b> <br /></p><br /><br />
+       <br /><br /><b> Welcome to Travel Sri Lanka: Your Gateway to Sri Lanka </b> <br /></p><br /><br />
       
 <p style={{pStyle,fontSize:isMobile?'30px':'30px'}}><b>‘Where Family, Passion, and Adventure Meet’</b></p><br />
 
-<p style={{pStyle , fontSize:isMobile?'20px':'28px'}}>At Lahiru Tours, we believe that travel is more than just visiting new places—it's about creating unforgettable memories and experiencing the heart and soul of a destination. As a family-run travel agency with over two decades of experience, we bring a personal touch and deep local knowledge to every journey we plan.
+<p style={{pStyle , fontSize:isMobile?'20px':'28px'}}>At Travel Sri Lanka, we believe that travel is more than just visiting new places—it's about creating unforgettable memories and experiencing the heart and soul of a destination. As a family-run travel agency with over two decades of experience, we bring a personal touch and deep local knowledge to every journey we plan.
 <br /><br /><br /><b><p style={{marginBottom:'20px',}}>Our Story</p></b><br />
 
 <div style={{fontSize:isMobile?'20px':'25px'}}>
-Founded in 1996 by Gamini, Lahiru Tours was born from a passion for showcasing the rich culture, history, and natural beauty of Sri Lanka. Our family has explored every corner of this stunning island, gaining unique insights and knowledge that we use to craft perfect travel itineraries for our guests.
+Travel Sri Lanka was born from a passion for sharing the island’s beauty, culture, and heritage. With years of local expertise, we craft unforgettable journeys from golden beaches to ancient wonders. Let us turn your Sri Lankan adventure into a cherished memory.
 </div>
 
 <div style={{display:isMobile?'inline-block':'flex',gap:'40%'}}>
@@ -350,7 +351,7 @@ Founded in 1996 by Gamini, Lahiru Tours was born from a passion for showcasing t
 
 
 </div>
-<br /><b>Why Choose Lahiru Tours?</b><br />
+<br /><b>Why Choose Travel Sri Lanka?</b><br />
 <p style={pStyle2}><b>•	Personal Touch:</b> We treat every guest like a member of our own family, ensuring you receive personalized service and attention to detail that larger companies can't offer.<br />
 <b>•	Expert Knowledge:</b> Our extensive local expertise allows us to create unique itineraries that highlight both hidden gems and popular landmarks, offering an authentic and enriching experience.<br />
 <b>•	Passionate Team:</b> Our team consists of family members and close friends who share a love for travel and hospitality. We are committed to providing warm, friendly, and professional service to make your trip unforgettable.<br />
@@ -363,8 +364,8 @@ Founded in 1996 by Gamini, Lahiru Tours was born from a passion for showcasing t
 <b>•	Adventure Trips:</b> From surfing and hiking to wildlife safaris, experience thrilling adventures.<br />
 <b>•	Family Vacations:</b> Fun and engaging activities for travelers of all ages.<br />
 <b>•	Luxury Travel:</b> Enjoy the finest accommodations and exclusive experiences.<br /><br /><br />
-Join the Lahiru Tours Family<br />
-Embark on a journey with Lahiru Tours and discover the true essence of Sri Lanka. Let our family take care of yours and create memories that will last a lifetime.<br />
+Join the Travel Sri Lanka Family<br />
+Embark on a journey with Travel Sri Lanka and discover the true essence of Sri Lanka. Let our family take care of yours and create memories that will last a lifetime.<br />
 We look forward to welcoming you to our beautiful island and providing you with an exceptional travel experience.<br />
 Contact Us Today:
 
@@ -411,9 +412,9 @@ Contact Us Today:
           <h4 style={footerSectionTitleStyle}>Contact Us</h4>
           
           <p><u>
-            info@lahirutours.co.uk<br />
-            admin@lahirutours.co.uk <br />
-            payments@lahirutours.co.uk <br />
+          info@travelsrilanka.co.uk<br />
+            admin@travelsrilanka.co.uk <br />
+            payments@travelsrilanka.co.uk <br />
            </u>
           </p>
         </div>

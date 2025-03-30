@@ -169,13 +169,16 @@ const Feedback = ({ backgroundImageUrl }) => {
     
     linkStyle : {
       color: 'black',
-      textDecoration: 'none',
-      margin: '0 10px',
+  textDecoration: 'none',
+  margin: '0 10px',
+  whiteSpace: 'nowrap', // Ensures single-line display
     },
     
     navLinksStyle : {
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'flex-start',
+      gap:'20px',
     },
     buttonContainerStyle : {
       display: 'flex',
@@ -356,28 +359,36 @@ const Feedback = ({ backgroundImageUrl }) => {
       color: 'white',
       textDecoration: 'none',
     },
-    bookbuttonstyle:{
+    bookbuttonstyle: {
       display: isMobile ? 'none' : 'block', // Hide on mobile
       backgroundColor: '#90EE90',
-        color: 'white',
-        padding: '20px 20px',
-        border: 'none',
-        borderRadius: '4px',
-        cursor: 'pointer',
-        fontSize: '1.6em',
-        marginTop: '0px',
-    },
+      color: 'white',
+      padding: '10px 20px', // Medium size padding
+      border: 'none',
+      borderRadius: '25px', // Smooth curved edges
+      cursor: 'pointer',
+      fontSize: '30px', // Medium font size
+      marginTop: '0px',
+      textAlign: 'center',
+      minWidth: '20px', // Consistent button size
+  },
+  
     bookbuttonstyle3:{
       display: isMobile ? 'none' : 'block', // Hide on mobile
       backgroundColor: '#4682B4',
         color: 'white',
-        padding: '20px 20px',
-        border: 'none',
-        borderRadius: '4px',
+        padding: '10px 20px', // Medium size padding
+        fontSize: '30px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#2196F3', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
         cursor: 'pointer',
-        fontSize: '1.6em',
-        marginTop: '0px',
+        minWidth: '20px', // Ensures consistent size
+        textAlign: 'center'
     },
+    
   };
 
 
@@ -387,43 +398,13 @@ const Feedback = ({ backgroundImageUrl }) => {
 
   return (
     <div style={styles.app}>
-      <header style={styles.header1style} >
-      <div style={styles.navbarStyle}>
-      {/* Left Section: Logo */}
-      <div>
-        <h1 style={{ margin: '0', padding: '0', fontSize: '1em' }}><b>info@lahirutours.co.uk</b></h1>
-      </div>
       
-      {/* Center Section: Navigation Links */}
-      <div style={styles.navLinksStyle}>
-       
-      </div>
-      
-      {/* Right Section: Buttons */}
-      <div style={styles.buttonContainerStyle}>
-      <a href="https://www.facebook.com/share/TLHsJswwmcxzvuiA/?mibextid=WC7FNe" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaFacebook size={30} />
-        </a>
-        <a href="https://www.instagram.com/lahiru_tours_sri_lanka?igsh=azYyenZxaHZ6aW1y&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaInstagram size={30} />
-        </a>
-        <a href="https://vm.tiktok.com/ZGevyQ8eB/" target="_blank" rel="noopener noreferrer" style={{  padding: '10px 20px', cursor: 'pointer' }} >
-          <FaTiktok size={30}  />
-  </a>
-
-        {/* Add more buttons as needed */}
-      </div>
-
-    </div>
-
-            
-      </header>
       
       <section style={styles.headerStyle}>
       <div style={styles.navbarStyle2}>
   {/* Left Section: Logo */}
   <div>
-  <img src="https://lahirutours.co.uk/photos/logo.gif" alt="Logo" style={styles.logoImgStyle} />
+  <img src="./images/logo.jpeg" alt="Logo" style={styles.logoImgStyle} />
   </div>
   
   {/* Center Section: Navigation Links */}
@@ -432,9 +413,9 @@ const Feedback = ({ backgroundImageUrl }) => {
     <a href="/About" style={styles.linkStyle}>About Us</a>
     <a href="/TourPackages" style={styles.linkStyle}>Tour Packages</a>
     <a href="/ContactUS" style={styles.linkStyle}>Contact</a>
-    <a href="/feedback" style={styles.linkStyle}><b>FAQ</b></a>
+    <a href="/feedback" style={styles.linkStyle}><b>Feedback</b></a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
+  <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
      <Link to="/signin" style={styles.bookbuttonstyle}>
      <b>Login</b>
                </Link> 
@@ -573,9 +554,9 @@ const Feedback = ({ backgroundImageUrl }) => {
         <div style={styles.footerSectionStyle}>
           <h4 style={styles.footerSectionTitleStyle}>Contact Us</h4>
           <p><u>
-            info@lahirutours.co.uk<br />
-            admin@lahirutours.co.uk <br />
-            payments@lahirutours.co.uk <br />
+          info@travelsrilanka.co.uk<br />
+            admin@travelsrilanka.co.uk <br />
+            payments@travelsrilanka.co.uk <br />
            </u>
 
             

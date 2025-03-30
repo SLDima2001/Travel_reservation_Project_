@@ -121,13 +121,16 @@ function Afterfeedback() {
   
   const linkStyle = {
     color: 'black',
-    textDecoration: 'none',
-    margin: '0 10px',
+  textDecoration: 'none',
+  margin: '0 10px',
+  whiteSpace: 'nowrap', // Ensures single-line display
   };
   
   const navLinksStyle = {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap:'20px',
   };
   const buttonContainerStyle = {
     display: 'flex',
@@ -211,19 +214,23 @@ function Afterfeedback() {
     textDecoration: 'none',
   };
   const buttonS = {
-    display:'inline-block',
-    width:isMobile?'':'16%',
+    display: 'inline-block',
+    width: isMobile ? '' : '20%',
     marginTop: '50px',
-      padding: '20px 50px',
-      fontSize: '2em',
-      color: 'white',
-      backgroundColor: '#4682B4',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      textDecoration: 'none',
-      marginBottom:'50px',
-  };
+    padding: '20px 50px',
+    fontSize: '2em',
+    color: 'white',
+    backgroundColor: '#4682B4',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    marginBottom: '50px',
+    whiteSpace: 'nowrap', // Prevents text wrapping
+    overflow: 'hidden', // Ensures content does not overflow
+    textOverflow: 'ellipsis' // Adds "..." if content overflows
+};
+
   const aboutS = {
     fontFamily:'Great Vibes',
     fontSize: '2em',
@@ -260,42 +267,12 @@ function Afterfeedback() {
   
   return (
     <div style={appStyle}>
-      <header style={header1style} >
-      <div style={navbarStyle}>
-      {/* Left Section: Logo */}
-      <div>
-        <h1 style={{ margin: '0', padding: '0', fontSize: '1em' }}><b>info@lahirutours.co.uk</b></h1>
-      </div>
       
-      {/* Center Section: Navigation Links */}
-      <div style={navLinksStyle}>
-       
-      </div>
-      
-      {/* Right Section: Buttons */}
-      <div style={buttonContainerStyle}>
-      <a href="https://www.facebook.com/share/TLHsJswwmcxzvuiA/?mibextid=WC7FNe" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaFacebook size={30} />
-        </a>
-        <a href="https://www.instagram.com/lahiru_tours_sri_lanka?igsh=azYyenZxaHZ6aW1y&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaInstagram size={30} />
-        </a>
-        <a href="https://vm.tiktok.com/ZGevyQ8eB/" target="_blank" rel="noopener noreferrer" style={{  padding: '10px 20px', cursor: 'pointer' }} >
-          <FaTiktok size={30}  />
-  </a>
-
-        {/* Add more buttons as needed */}
-      </div>
-
-    </div>
-
-            
-      </header>
       <section style={headerStyle}>
       <div style={navbarStyle2}>
   {/* Left Section: Logo */}
   <div>
-  <img src="https://lahirutours.co.uk/photos/logo.gif" alt="Logo" style={logoImgStyle} />
+  <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
   </div>
   
   {/* Center Section: Navigation Links */}
@@ -304,16 +281,38 @@ function Afterfeedback() {
     <a href="/About" style={linkStyle}>About</a>
     <a href="/TourPackages" style={linkStyle}>Tour Packages</a>
     <a href="/ContactUS" style={linkStyle}>Contact</a>
-    <a href="/feedback" style={linkStyle}>FAQ</a>
+    <a href="/feedback" style={linkStyle}>Feedback</a>
   </div>
- <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-    <Link to="/signin" style={bookbuttonstyle}>
-    <b>Login</b>
-              </Link> 
-              <Link to="/register" style={bookbuttonstyle3}>
-    <b>Register</b>
-              </Link> 
-    </div>
+ <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
+     <Link to="/signin" style={{ 
+         padding: '10px 20px', // Medium size padding
+         fontSize: '16px', // Medium font size
+         borderRadius: '25px', // Smooth rounded edges
+         backgroundColor: '#4CAF50', 
+         color: 'white', 
+         textDecoration: 'none', 
+         border: 'none', 
+         cursor: 'pointer',
+         minWidth: '100px', // Ensures consistent size
+         textAlign: 'center' 
+     }}>
+         <b>Login</b>
+     </Link>
+     <Link to="/register" style={{ 
+         padding: '10px 20px', // Medium size padding
+         fontSize: '16px', // Medium font size
+         borderRadius: '25px', // Smooth rounded edges
+         backgroundColor: '#2196F3', 
+         color: 'white', 
+         textDecoration: 'none', 
+         border: 'none', 
+         cursor: 'pointer',
+         minWidth: '100px', // Ensures consistent size
+         textAlign: 'center' 
+     }}>
+         <b>Register</b>
+     </Link>
+ </div>
   
   
 </div>
@@ -325,16 +324,16 @@ function Afterfeedback() {
       <main>
         <div style={mainContentStyle}>
         <p style={{fontSize:isMobile?'1em':'1.4em',display:'inline-block',width:isMobile?'100%':'60%',textAlign:isMobile?'center':'center'}}>
-       <p style={{fontSize:isMobile?'1em':'1.2em'}}> Thank you for taking the time to provide feedback on your booking experience with Lahiru Tours.</p>
+       <p style={{fontSize:isMobile?'1em':'1.2em'}}> Thank you for taking the time to provide feedback on your booking experience with Travel Sri Lanka.</p>
 
 <p>We are committed to delivering exceptional service and creating unforgettable travel experiences for our clients. Your input is invaluable to us, and we appreciate your thoughts on how we can continue to improve our services.</p>
 
-<p>If you have any additional comments or need further assistance, please feel free to reach out to us directly at <u>admin@lahirutours.co.uk</u> We’re here to help and ensure that every aspect of your travel experience meets your expectations.</p>
+<p> We’re here to help and ensure that every aspect of your travel experience meets your expectations.</p>
 
-<p>Thank you once again for choosing Lahiru Tours. We look forward to serving you and making your journey with us truly remarkable!</p>
+<p>Thank you once again for choosing Travel Sri Lanka. We look forward to serving you and making your journey with us truly remarkable!</p>
 
 <p>Warm regards,</p>
-<p>The Lahiru Tours Team</p>
+<p>The Travel Sri Lanka</p>
         </p>
       
 
@@ -379,9 +378,9 @@ function Afterfeedback() {
           <h4 style={footerSectionTitleStyle}>Contact Us</h4>
           
           <p><u>
-            info@lahirutours.co.uk<br />
-            admin@lahirutours.co.uk <br />
-            payments@lahirutours.co.uk <br />
+          info@travelsrilanka.co.uk<br />
+            admin@travelsrilanka.co.uk <br />
+            payments@travelsrilanka.co.uk <br />
            </u>
           </p>
         </div>
