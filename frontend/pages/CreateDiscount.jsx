@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const CreateDiscount = () => {
   const navigate = useNavigate();
   const [text, setText] = useState("");
   const [texts, setTexts] = useState([]);
+  const [filteredTexts, setFilteredTexts] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const contentRef = useRef();
 
-  // Fetch All Saved Texts
   useEffect(() => {
     fetchTexts();
   }, []);
@@ -19,36 +23,39 @@ const CreateDiscount = () => {
     try {
       const response = await axios.get("http://localhost:5555/api/get-texts");
       setTexts(response.data);
+      setFilteredTexts(response.data);
     } catch (error) {
       console.error("Error fetching texts", error);
     }
   };
 
-  // Save or Update Text
   const handleSave = async () => {
     try {
+      const payload = { text };
       if (selectedId) {
-        await axios.put(`http://localhost:5555/api/update-text/${selectedId}`, { text });
+        await axios.put(`http://localhost:5555/api/update-text/${selectedId}`, payload);
         alert("Text updated successfully!");
       } else {
-        await axios.post("http://localhost:5555/api/save-text", { text });
+        await axios.post("http://localhost:5555/api/save-text", payload);
         alert("Text saved successfully!");
       }
-      setText("");
-      setSelectedId(null);
+      resetForm();
       fetchTexts();
     } catch (error) {
       console.error("Error saving text", error);
     }
   };
 
-  // Load Selected Text for Editing
+  const resetForm = () => {
+    setText("");
+    setSelectedId(null);
+  };
+
   const handleEdit = (id, text) => {
     setText(text);
     setSelectedId(id);
   };
 
-  // Delete Text Entry
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:5555/api/delete-text/${id}`);
@@ -59,12 +66,50 @@ const CreateDiscount = () => {
     }
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === "") {
+      setFilteredTexts(texts);
+    } else {
+      const filtered = texts.filter((item) =>
+        item.text.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredTexts(filtered);
+    }
+  };
+
+  const generatePDF = () => {
+    const input = contentRef.current;
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("discount_texts.pdf");
+    });
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      [{ font: [] }],
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["clean"],
+    ],
+  };
+
   const styles = {
     container: {
       display: "flex",
       height: "auto",
-      background: "#121212", // Dark background
-      color: "#ffffff", // White text
+      background: "#121212",
+      color: "#ffffff",
       fontFamily: "Arial, sans-serif",
     },
     sidebar: {
@@ -72,7 +117,6 @@ const CreateDiscount = () => {
       background: "#222",
       padding: "20px",
       boxShadow: "2px 0 10px rgba(0,0,0,0.2)",
-      transition: "all 0.3s ease",
     },
     sidebarItem: {
       padding: "15px",
@@ -81,112 +125,90 @@ const CreateDiscount = () => {
       cursor: "pointer",
       borderRadius: "5px",
       textAlign: "center",
-      transition: "background 0.3s ease",
-      color: "#ffffff", // White text for sidebar items
+      color: "#ffffff",
     },
     mainContent: {
       flex: 1,
       padding: "40px",
       textAlign: "center",
-      animation: "fadeIn 0.8s ease-in-out",
     },
-    title: {
-      color: "#ffffff",
-      fontSize: "24px",
-      fontWeight: "bold",
-      marginBottom: "20px",
-    },
-    saveBtn: {
-      backgroundColor: "#4CAF50",
-      color: "#fff",
+    editorContainer: {
+      background: "#fff",
+      color: "#000",
+      borderRadius: "5px",
       padding: "10px",
-      border: "none",
-      cursor: "pointer",
-      margin: "5px",
     },
-    cancelBtn: {
-      backgroundColor: "#d9534f",
-      color: "#fff",
-      padding: "10px",
-      border: "none",
-      cursor: "pointer",
-      margin: "5px",
-    },
-    discountText: {
+    button: {
+      margin: "10px",
       padding: "10px",
       borderRadius: "5px",
-      backgroundColor: "#1e1e1e", // Dark background for discount text
-      color: "#ffffff",
-      marginBottom: "10px",
-      textAlign: "left",
-      fontSize: "18px", // Default font size
+      border: "none",
+      cursor: "pointer",
+      color: "white",
+    },
+    searchInput: {
+      padding: "10px",
+      width: "60%",
+      marginBottom: "15px",
+      borderRadius: "5px",
+      border: "1px solid #ccc",
+      backgroundColor:'black'
     },
   };
 
   return (
     <div style={styles.container}>
-      {/* Sidebar */}
       <div style={styles.sidebar}>
         <h3>Admin Panel</h3>
-        <div
-          style={styles.sidebarItem}
-          onClick={() => navigate("/admindashboard")}
-        >
-          Dashboard
-        </div>
-        <div
-          style={styles.sidebarItem}
-          onClick={() => navigate("/usershowpage")}
-        >
-          Users
-        </div>
-        <div
-          style={styles.sidebarItem}
-          onClick={() => navigate("/adminsignin")}
-        >
-          Logout
-        </div>
+        <div style={styles.sidebarItem} onClick={() => navigate("/admindashboard")}>Dashboard</div>
+        <div style={styles.sidebarItem} onClick={() => navigate("/usershowpage")}>Users</div>
+        <div style={styles.sidebarItem} onClick={() => navigate("/adminsignin")}>Logout</div>
       </div>
 
-      {/* Main Content */}
       <div style={styles.mainContent}>
-        <h2 style={styles.title}>Add Discounts</h2>
-        <ReactQuill theme="snow" value={text} onChange={setText} />
+        <h2>Add Discounts</h2>
+
+        <div style={styles.editorContainer}>
+          <ReactQuill value={text} onChange={setText} modules={modules} theme="snow" />
+        </div>
+
         <button
           onClick={handleSave}
-          style={{
-            marginTop: "10px",
-            padding: "10px",
-            cursor: "pointer",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-          }}
+          style={{ ...styles.button, backgroundColor: "#4CAF50" }}
         >
           {selectedId ? "Update Text" : "Save Text"}
         </button>
 
-        <h3 style={{ marginTop: "20px", color: "#ffffff" }}>Saved Texts</h3>
-        <ul style={{ textAlign: "left", padding: "0", listStyle: "none" }}>
-          {texts.map((item) => (
-            <li key={item._id} style={styles.discountText}>
-              <div dangerouslySetInnerHTML={{ __html: item.text }} />
-              <button
-                onClick={() => handleEdit(item._id, item.text)}
-                style={styles.saveBtn}
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDelete(item._id)}
-                style={styles.cancelBtn}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <button
+          onClick={generatePDF}
+          style={{ ...styles.button, backgroundColor: "#007bff" }}
+        >
+          Generate PDF
+        </button>
+
+        {/* Search Bar */}
+        <input
+          type="text"
+          placeholder="Search texts..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          style={styles.searchInput}
+        />
+
+        <div ref={contentRef} style={{ textAlign: "left", marginTop: "20px", background: "#1e1e1e", padding: "10px", borderRadius: "5px" }}>
+          <h3>Saved Texts:</h3>
+          {filteredTexts.length > 0 ? (
+            filteredTexts.map((item) => (
+              <div key={item._id} style={{ background: "#333", padding: "10px", borderRadius: "5px", marginBottom: "10px" }}>
+                <div dangerouslySetInnerHTML={{ __html: item.text }} />
+                <button onClick={() => handleEdit(item._id, item.text)} style={{ ...styles.button, backgroundColor: "#ff9800" }}>Edit</button>
+                <button onClick={() => handleDelete(item._id)} style={{ ...styles.button, backgroundColor: "#d9534f" }}>Delete</button>
+              </div>
+            ))
+          ) : (
+            <p>No matching results found.</p>
+          )}
+        </div>
       </div>
     </div>
   );

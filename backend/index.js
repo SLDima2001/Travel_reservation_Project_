@@ -58,7 +58,7 @@ app.post("/getRecommendations", async (req, res) => {
     if (!weather || !duration || !interests || !guestType || !budget) {
       return res.status(400).json({ error: "All fields are required" });
     }
-    const userPrompt = `Generate a travel itinerary for a ${guestType} traveler visiting Sri Lanka. Weather: ${weather}, Duration: ${duration} days, Interests: ${interests}, Budget: ${budget}.`;
+    const userPrompt = `Generate a travel destinations for a ${guestType} traveler visiting Sri Lanka. Weather: ${weather}, Duration: ${duration} days, Interests: ${interests}, Budget: ${budget}.`;
     
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",

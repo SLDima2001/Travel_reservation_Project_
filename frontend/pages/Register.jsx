@@ -24,11 +24,8 @@ const Register = () => {
       });
 
       if (response.data.success) {
-        // Store JWT token in localStorage
-        localStorage.setItem("token", response.data.token);
-
-        alert("Registration Successful! Redirecting to dashboard...");
-        navigate("/signin"); // Redirecting to a protected route
+        alert("Registration Successful! Redirecting to login...");
+        navigate("/signin");
       } else {
         setError(response.data.message);
       }
@@ -85,7 +82,7 @@ const Register = () => {
   );
 };
 
-// Keeping all styles unchanged
+// Enhanced styles with effects
 const styles = {
   container: {
     display: "flex",
