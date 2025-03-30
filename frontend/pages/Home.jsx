@@ -654,56 +654,7 @@ function Home() {
 Lahiru Tours was founded in <b>1996</b> by Gamini with the vision of providing unique, memorable travel experiences that highlight the rich culture, history, and natural beauty of Sri Lanka. As Gamini’s family, we have explored every corner of this beautiful island, gaining insights and knowledge that we now use to create perfect travel itineraries for our guests.</p>
 
 <br /></p>
-<div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/ShowFeedback" style={bookbuttonstyle}>
-  <b>Feedback</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/signin" style={bookbuttonstyle}>
-  <b>Sign In</b>
-            </Link> 
-  </div>
 
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/register" style={bookbuttonstyle}>
-  <b>Register</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/creatediscount" style={bookbuttonstyle}>
-  <b>Text</b>
-            </Link> 
-  </div>
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/paymentdetails" style={bookbuttonstyle}>
-  <b>Payments</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/travelreco" style={bookbuttonstyle}>
-  <b>travel</b>
-            </Link> 
-  </div>
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/ShowContactus" style={bookbuttonstyle}>
-  <b>Contact</b>
-            </Link> 
-  </div>
-
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/adminsignin" style={bookbuttonstyle}>
-  <b>Admin</b>
-            </Link> 
-  </div>
-
-  <div style={{ marginRight: '10px',marginTop:'19px' }}> {/* Right-aligned content */}
-  <Link to="/BookingForm" style={bookbuttonstyle}>
-  <b>Book</b>
-            </Link> 
-  </div>
           <h2 style={h12Style}><b>Tour Packages</b></h2>
           <div style={packageOptionsStyle}>
 
