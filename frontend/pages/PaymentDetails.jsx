@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../component/BackButton";
 import { jsPDF } from "jspdf";
+import html2pdf from "html2pdf.js";  // Import html2pdf.js
+
 
 const PaymentDetails = () => {
   const navigate = useNavigate();
@@ -78,43 +80,13 @@ const PaymentDetails = () => {
   };
 
   const generatePDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(12);
-    doc.text("Customer Payment Details", 20, 20);
+    const element = document.getElementById("pdf-content");  // Select the content to be converted to PDF
 
-    // Define table columns
-    const columns = [
-      "Name",
-      "Email",
-      "Phone",
-      "Package",
-      "Persons",
-      "From",
-      "To",
-    ];
-
-    // Map the filtered data into rows for the table
-    const rows = filteredPayments.map((payment) => [
-      payment.name,
-      payment.email,
-      payment.phoneNumber,
-      payment.selectedPackage,
-      payment.persons,
-      new Date(payment.fromDate).toLocaleDateString(),
-      new Date(payment.toDate).toLocaleDateString(),
-    ]);
-
-    // Add table to PDF
-    doc.autoTable({
-      head: [columns],
-      body: rows,
-      startY: 30, // Starting Y position for the table
-    });
-
-    // Save the PDF
-    doc.save("payment_details.pdf");
+    // Use html2pdf.js to generate the PDF
+    html2pdf()
+      .from(element)
+      .save("payment_details.pdf");
   };
-
   const styles = {
     container: {
       display: "flex",
@@ -285,7 +257,7 @@ const PaymentDetails = () => {
         {loading ? (
           <p style={styles.loading}>Loading...</p>
         ) : (
-          <table style={styles.table}>
+          <table id="pdf-content" style={styles.table}>
             <thead>
               <tr>
                 <th style={styles.th}>Name</th>
