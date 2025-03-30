@@ -414,7 +414,7 @@ const ShowFeedback = () => {
                 {filteredFeedbacks.length === 0 ? (
                   <p style={styles.noData}>No feedback found matching your search criteria.</p>
                 ) : (
-                  <table style={styles.table}>
+                  <table style={styles.table} id="table-to-pdf">
                     <thead>
                       <tr>
                         <th style={styles.th}>First Name</th>
