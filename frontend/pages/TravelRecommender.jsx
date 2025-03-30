@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const TravelRecommender = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +48,9 @@ const TravelRecommender = () => {
 
   return (
     <div style={styles.container}>
+      
       <h2 style={styles.title}>Plan Your Trip to Sri Lanka</h2>
+      
 
       {Object.entries(formData).map(([key, value]) => (
         <div key={key}>
@@ -89,7 +92,25 @@ const TravelRecommender = () => {
       </button>
 
       {recommendations && <div style={styles.result}>{recommendations}</div>}
+      <div style={{marginTop:'50px'}}>
+      <Link to="/" style={{ 
+              
+              padding: '20px 20px', // Medium size padding
+              fontSize: '16px', // Medium font size
+              borderRadius: '25px', // Smooth rounded edges
+              backgroundColor: 'black', 
+              color: 'white', 
+              textDecoration: 'none', 
+              border: 'none', 
+              cursor: 'pointer',
+              minWidth: '100px', // Ensures consistent size
+              textAlign: 'center' 
+          }}>
+              <b>Back To Home</b>
+          </Link> 
+      </div>
     </div>
+    
   );
 };
 

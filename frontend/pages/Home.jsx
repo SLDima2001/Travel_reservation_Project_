@@ -856,7 +856,20 @@ Tour PackagesWe offer flexible and engaging packages designed to help you enjoy 
           <br /><br /><br />
          
             
-          
+          <Link to="/travelreco" style={{ 
+        padding: '10px 20px', // Medium size padding
+        fontSize: '16px', // Medium font size
+        borderRadius: '25px', // Smooth rounded edges
+        backgroundColor: '#4CAF50', 
+        color: 'white', 
+        textDecoration: 'none', 
+        border: 'none', 
+        cursor: 'pointer',
+        minWidth: '100px', // Ensures consistent size
+        textAlign: 'center' 
+    }}>
+        <b>Travel Budy Matching</b>
+    </Link>
     
 
             

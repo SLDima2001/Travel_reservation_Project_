@@ -482,14 +482,7 @@ const ShowContactUs = () => {
         >
           Users
         </div>
-        <div 
-          style={{
-            ...styles.sidebarItem,
-            backgroundColor: window.location.pathname === "/showcontactus" ? "#4CAF50" : "rgba(51, 51, 51, 0.7)"
-          }}
-        >
-          Contact Requests
-        </div>
+        
         <div style={styles.sidebarItem} onClick={() => navigate("/adminsignin")}>
           Logout
         </div>
