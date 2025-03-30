@@ -394,7 +394,9 @@ fontSize:isMobile?'1.5em':'3em'
         </button>
       <div style={styles.mainContent}>
         <div style={styles.formContainer}>
-          <h2>Book Your Tour</h2>
+          
+          <h2><b>Book Your Tour</b></h2>
+
 
           <form onSubmit={handleSubmit}>
             <input
@@ -464,6 +466,7 @@ fontSize:isMobile?'1.5em':'3em'
               style={styles.input}
               required
             />
+            
 
             {/* Terms and Conditions Button */}
             <div style={styles.termsContainer}>
@@ -490,12 +493,12 @@ fontSize:isMobile?'1.5em':'3em'
                 Payment Security Notice
 Your security is our top priority. We use advanced encryption technology to ensure that your payment details are processed securely through Stripe’s global payment integration. Rest assured, all transactions are protected with the highest level of security.
 
-If you have any concerns or need assistance, please contact us at <br /><u>payments@lahirutours.co.uk.</u><br />
+If you have any concerns or need assistance, please contact us at <br /><u>payments@travelsrilanka.co.uk.</u><br />
 
-Thank you for choosing Lahiru Tours. Your safety and privacy are paramount to us.
+Thank you for choosing Travel Sri Lanka. Your safety and privacy are paramount to us.
 
 Warm regards,
-The Lahiru Tours Team
+The Travel Sri Lanka Team
               </p>
             </div>
 
@@ -593,3 +596,4 @@ Thank you for choosing Lahiru Tours. We look forward to making your travel exper
 }
 
 export default BookingForm;
+
