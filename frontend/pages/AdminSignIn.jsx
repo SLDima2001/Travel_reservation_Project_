@@ -60,7 +60,7 @@ const AdminSignIn = () => {
         </div>
 
         <button type="submit" style={styles.button}>Sign In</button>
-        <a href="/register" style={styles.link}>If You Haven't an Account</a>
+       
       </form>
     </div>
   );

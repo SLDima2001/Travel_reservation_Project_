@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const adminlogin = () => {
+    navigate("/adminsignin");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +38,10 @@ const SignIn = () => {
 
   return (
     <div style={styles.container}>
+
+
+
+
       <div style={styles.background}></div>
       <form onSubmit={handleSubmit} style={styles.form}>
         <h2 style={styles.title}>Sign In</h2>
@@ -65,6 +72,20 @@ const SignIn = () => {
         <button type="submit" style={styles.button}>Sign In</button>
         <a href="/register" style={styles.link}>If You Haven't an Account</a>
       </form>
+      <button 
+onClick={adminlogin} 
+style={{
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  backgroundColor: "#4caf50",
+  color: "white",
+  border: "none",
+  padding: "10px 20px",
+  borderRadius: "5px",
+  fontSize: "1rem",
+  cursor: "pointer",
+}}>Admin Login</button>
     </div>
   );
 };

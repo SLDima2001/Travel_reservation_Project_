@@ -167,6 +167,13 @@ const UserDashboard = () => {
     }
   };
 
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    setContactEditData(null);
+    setFeedbackEditData(null);
+    setPaymentEditData(null);
+  };
+
   return (
     <div className="user-dashboard">
       <h2 className="dashboard-title">User Dashboard</h2>
@@ -332,7 +339,7 @@ const UserDashboard = () => {
                     />
                     <div className="form-buttons">
                       <button className="save-btn" onClick={handleUpdateContact}>Save Changes</button>
-                      <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancel</button>
+                      <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -359,7 +366,7 @@ const UserDashboard = () => {
                       value={feedbackEditData.email}
                       onChange={(e) => setFeedbackEditData({ ...feedbackEditData, email: e.target.value })}
                     />
-                    <label>Phone Number:</label>
+                    <label>Phone:</label>
                     <input
                       type="text"
                       value={feedbackEditData.phonenumber}
@@ -384,68 +391,60 @@ const UserDashboard = () => {
                     />
                     <div className="form-buttons">
                       <button className="save-btn" onClick={handleUpdateFeedback}>Save Changes</button>
-                      <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancel</button>
+                      <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
                     </div>
                   </div>
                 </div>
               )}
               {paymentEditData && (
                 <div className="edit-modal">
-                  <h3>Edit Payment</h3>
+                  <h3>Edit Payment Details</h3>
                   <div className="edit-form">
-
                     <label>Name:</label>
                     <input
                       type="text"
                       value={paymentEditData.name}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, name: e.target.value })}
                     />
-
                     <label>Email:</label>
                     <input
                       type="email"
                       value={paymentEditData.email}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, email: e.target.value })}
                     />
-
                     <label>Phone Number:</label>
                     <input
-                      type="number"
+                      type="text"
                       value={paymentEditData.phoneNumber}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, phoneNumber: e.target.value })}
                     />
-
-                    <label>Selected Package:</label>
+                    <label>Package:</label>
                     <input
                       type="text"
                       value={paymentEditData.selectedPackage}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, selectedPackage: e.target.value })}
                     />
-
                     <label>Persons:</label>
                     <input
                       type="number"
                       value={paymentEditData.persons}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, persons: e.target.value })}
                     />
-                    
                     <label>From Date:</label>
                     <input
                       type="date"
                       value={paymentEditData.fromDate}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, fromDate: e.target.value })}
                     />
-
                     <label>To Date:</label>
                     <input
                       type="date"
                       value={paymentEditData.toDate}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, toDate: e.target.value })}
                     />
-                    
                     <div className="form-buttons">
                       <button className="save-btn" onClick={handleUpdatePayment}>Save Changes</button>
-                      <button className="cancel-btn" onClick={() => setEditMode(false)}>Cancel</button>
+                      <button className="cancel-btn" onClick={handleCancelEdit}>Cancel</button>
                     </div>
                   </div>
                 </div>
@@ -454,7 +453,7 @@ const UserDashboard = () => {
           )}
         </>
       ) : (
-        <p>Loading...</p>
+        <p>Loading user data...</p>
       )}
     </div>
   );
