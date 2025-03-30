@@ -272,7 +272,7 @@ fontSize:isMobile?'1.5em':'3em'
     });
 
     if (result.error) {
-      alert(result.error.message);
+      //alert(result.error.message);
     }
   };
 
@@ -301,7 +301,7 @@ fontSize:isMobile?'1.5em':'3em'
       await makePayment();
     } catch (error) {
       console.error('Error booking tour:', error);
-      alert('Booking failed!');
+      //alert('Booking failed!');
     }
   };
 
