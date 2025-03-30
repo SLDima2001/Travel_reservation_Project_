@@ -438,6 +438,7 @@ fontSize:isMobile?'1.5em':'3em'
                 </option>
               ))}
             </select>
+            <h1>Persons</h1>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <button type="button" onClick={decrementPersons} style={styles.personButton}>-</button>
               <span style={styles.personCount}>{formData.persons}</span>

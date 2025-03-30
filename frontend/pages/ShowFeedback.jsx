@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Spinner from '../component/Spinner';
 import { useNavigate } from 'react-router-dom';
+import { jsPDF } from "jspdf";
 
 const ShowFeedback = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const ShowFeedback = () => {
     message: '',
     rating: ''
   });
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   useEffect(() => {
     fetchFeedbacks();
@@ -84,6 +86,64 @@ const ShowFeedback = () => {
     }
   };
 
+  const generatePDF = () => {
+    const input = document.getElementById("table-to-pdf");
+    
+    if (!input) {
+      console.error("Element with ID 'table-to-pdf' not found!");
+      return;
+    }
+  
+    const pdf = new jsPDF({
+      unit: 'mm',
+      format: 'a1', // Changed to A4 format, adjust if necessary
+    });
+  
+    const rows = Array.from(input.querySelectorAll("tr"));
+    const tableData = rows.map((row) =>
+      Array.from(row.querySelectorAll("td, th")).map((cell) => cell.innerText)
+    );
+  
+    let yOffset = 20; // Adjust starting position for content
+    const margin = 10;
+  
+    pdf.setFontSize(16);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Feedback Details", margin, yOffset);
+    yOffset += 20;
+  
+    // Add table headers
+    const headers = tableData[0];
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFillColor(76, 175, 80); // Table header color
+    pdf.rect(margin, yOffset - 7, 500, 10, "F");
+    pdf.setTextColor(255, 255, 255);
+    headers.forEach((header, index) => {
+      pdf.text(header, margin + 50 * index, yOffset);
+    });
+    yOffset += 10;
+  
+    // Add table rows
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "normal");
+    pdf.setTextColor(0, 0, 0);
+    tableData.slice(1).forEach((row) => {
+      row.forEach((cell, index) => {
+        pdf.text(cell, margin + 50 * index, yOffset);
+      });
+      yOffset += 10;
+  
+      // Add page break if needed
+      if (yOffset > 270) {
+        pdf.addPage();
+        yOffset = 20;
+      }
+    });
+  
+    pdf.save("feedback_details.pdf");
+  };
+
   const handleCancel = () => {
     setEditingFeedback(null);
   };
@@ -96,10 +156,21 @@ const ShowFeedback = () => {
     }));
   };
 
+  // Search filter logic
+  const filteredFeedbacks = feedbacklist.filter(feedback => {
+    return (
+      feedback.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      feedback.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      feedback.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      feedback.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      feedback.message.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   const styles = {
     container: {
       display: "flex",
-      height: "100vh",
+      minHeight: "100vh",
       background: "#121212", // Dark background
       color: "#ffffff", // White text
       fontFamily: "Arial, sans-serif",
@@ -236,6 +307,20 @@ const ShowFeedback = () => {
       fontSize: '1.2rem',
       color: '#777',
     },
+    pdfButton: {
+      backgroundColor: "#ff6b6b",
+      color: "white",
+      border: "none",
+      padding: "12px 20px",
+      borderRadius: "6px",
+      fontSize: "1rem",
+      cursor: "pointer",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginLeft: "10px",
+    },
   };
 
   return (
@@ -272,6 +357,16 @@ const ShowFeedback = () => {
       {/* Main Content */}
       <div style={styles.mainContent}>
         <h1 style={styles.heading}>All Feedback Details</h1>
+        <input
+          type="text"
+          placeholder="Search feedback..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.input}
+        />
+        <button style={styles.pdfButton} onClick={generatePDF}>
+          Generate PDF
+        </button>
         {loading ? (
           <Spinner />
         ) : (
@@ -293,8 +388,8 @@ const ShowFeedback = () => {
                     <input type="email" name="email" value={updatedFeedback.email} onChange={handleChange} style={styles.input} />
                   </div>
                   <div style={styles.formGroup}>
-                    <label>Phone:</label>
-                    <input type="number" name="phonenumber" value={updatedFeedback.phonenumber} onChange={handleChange} style={styles.input} />
+                    <label>Phone Number:</label>
+                    <input type="text" name="phonenumber" value={updatedFeedback.phonenumber} onChange={handleChange} style={styles.input} />
                   </div>
                   <div style={styles.formGroup}>
                     <label>Subject:</label>
@@ -302,58 +397,64 @@ const ShowFeedback = () => {
                   </div>
                   <div style={styles.formGroup}>
                     <label>Message:</label>
-                    <textarea name="message" value={updatedFeedback.message} onChange={handleChange} style={styles.textarea} />
+                    <textarea name="message" value={updatedFeedback.message} onChange={handleChange} style={styles.textarea}></textarea>
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label>Rating:</label>
+                    <input type="text" name="rating" value={updatedFeedback.rating} onChange={handleChange} style={styles.input} />
                   </div>
                   <div style={styles.buttonGroup}>
-                    <button type="submit" style={styles.saveButton}>Save Changes</button>
+                    <button type="submit" style={styles.saveButton}>Save</button>
                     <button type="button" onClick={handleCancel} style={styles.cancelButton}>Cancel</button>
                   </div>
                 </form>
               </div>
             ) : (
-              <table style={styles.table}>
-                <thead>
-                  <tr>
-                    <th style={styles.th}>ID</th>
-                    <th style={styles.th}>First Name</th>
-                    <th style={styles.th}>Last Name</th>
-                    <th style={styles.th}>E-Mail</th>
-                    <th style={styles.th}>Phone Number</th>
-                    <th style={styles.th}>Subject</th>
-                    <th style={styles.th}>Message</th>
-                    <th style={styles.th}>Rating</th>
-                    <th style={styles.th}>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.isArray(feedbacklist) && feedbacklist.length > 0 ? (
-                    feedbacklist.map((feedback) => (
-                      <tr key={feedback._id}>
-                        <td style={styles.td}>{feedback._id}</td>
-                        <td style={styles.td}>{feedback.firstname}</td>
-                        <td style={styles.td}>{feedback.lastname}</td>
-                        <td style={styles.td}>{feedback.email}</td>
-                        <td style={styles.td}>{feedback.phonenumber}</td>
-                        <td style={styles.td}>{feedback.subject}</td>
-                        <td style={styles.td}>{feedback.message}</td>
-                        <td style={styles.td}>{feedback.rating}</td>
-                        <td style={styles.td}>
-                          <button onClick={() => handleEdit(feedback)} style={styles.editButton}>
-                            Edit
-                          </button>
-                          <button onClick={() => handleDelete(feedback._id)} style={styles.deleteButton}>
-                            Delete
-                          </button>
-                        </td>
+              <>
+                {filteredFeedbacks.length === 0 ? (
+                  <p style={styles.noData}>No feedback found matching your search criteria.</p>
+                ) : (
+                  <table style={styles.table}>
+                    <thead>
+                      <tr>
+                        <th style={styles.th}>First Name</th>
+                        <th style={styles.th}>Last Name</th>
+                        <th style={styles.th}>Email</th>
+                        <th style={styles.th}>Subject</th>
+                        <th style={styles.th}>Message</th>
+                        <th style={styles.th}>Rating</th>
+                        <th style={styles.th}>Actions</th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="9" style={styles.noData}>No feedback details found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {filteredFeedbacks.map((feedback) => (
+                        <tr key={feedback._id}>
+                          <td style={styles.td}>{feedback.firstname}</td>
+                          <td style={styles.td}>{feedback.lastname}</td>
+                          <td style={styles.td}>{feedback.email}</td>
+                          <td style={styles.td}>{feedback.subject}</td>
+                          <td style={styles.td}>{feedback.message}</td>
+                          <td style={styles.td}>{feedback.rating}</td>
+                          <td style={styles.td}>
+                            <button
+                              style={styles.editButton}
+                              onClick={() => handleEdit(feedback)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              style={styles.deleteButton}
+                              onClick={() => handleDelete(feedback._id)}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </>
             )}
           </div>
         )}
