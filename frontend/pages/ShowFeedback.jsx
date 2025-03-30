@@ -171,7 +171,7 @@ const ShowFeedback = () => {
     container: {
       display: "flex",
       minHeight: "100vh",
-      background: "#121212", // Dark background
+      background: "linear-gradient(135deg,rgb(106, 109, 153) 0%,rgb(255, 255, 255) 100%)",
       color: "#ffffff", // White text
       fontFamily: "Arial, sans-serif",
     },
@@ -278,6 +278,7 @@ const ShowFeedback = () => {
     },
     input: {
       padding: '10px',
+      
       width: '100%',
       border: '1px solid #444', // Darker border for inputs
       borderRadius: '4px',

@@ -119,7 +119,7 @@ const PaymentDetails = () => {
     container: {
       display: "flex",
       height: "100vh",
-      background: "#121212", // Dark background
+      background: "linear-gradient(135deg,rgb(106, 109, 153) 0%,rgb(255, 255, 255) 100%)",
       color: "#ffffff", // White text
       fontFamily: "Arial, sans-serif",
     },
