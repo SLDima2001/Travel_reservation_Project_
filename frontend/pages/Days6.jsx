@@ -6,6 +6,7 @@ import { useSpring, animated } from 'react-spring';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { FaFacebook, FaInstagram,FaTiktok } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
 function Days6() {
@@ -26,6 +27,7 @@ function Days6() {
   const [message, setMessage] = useState('');
   const [isformvisible, setisformvisible] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,6 +37,15 @@ function Days6() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+
+
+  const bookNow = () => {
+    navigate("/BookingForm"); // Change "/booking" to your target booking page route
+  };
+
+
+
 
   const showAlert = () => {
     alert('Thank you for choosing Lahiru Tours! We are excited to assist you in planning your perfect Sri Lankan adventure. Our team will promptly get back to you within 24 hours with a customized itinerary tailored to your interests and needs.For any immediate questions or additional information, please feel free to contact us directly at info@lahirutours.co.uk.We look forward to making your travel dreams come true!Warm regards,The Lahiru Tours Team');
@@ -738,7 +749,23 @@ The next part of this exciting Sri Lanka tour package is a visit to Galle, a cit
               
             </div>
             
-            
+            <button 
+      onClick={bookNow} 
+      style={{
+        padding: "10px 15px",
+        backgroundColor: "#4CAF50",
+        color: "#fff",
+        fontSize: "16px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "0.3s",
+      }}
+      onMouseEnter={(e) => (e.target.style.backgroundColor = "#45a049")}
+      onMouseLeave={(e) => (e.target.style.backgroundColor = "#4CAF50")}
+    >
+      Book Now
+    </button>
           
           
         </section>
