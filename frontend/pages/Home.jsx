@@ -311,7 +311,7 @@ const linkStyle = {
     justifyContent: 'center',
     gap:isMobile? '20px':'200px',
     marginTop:isMobile?'10px':'40px',
-    border:'20px solid blue',
+    //border:'20px solid blue',
     padding:isMobile?'10px':'20px',
     //boxShadow: '0px 4px 8px rgba(0, 0, 0, 1)',
     borderRadius:isMobile?'10px':'30px',
