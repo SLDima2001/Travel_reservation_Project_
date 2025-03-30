@@ -357,13 +357,16 @@ function TourPackages() {
           </div>
 
 <div style={{ width: "80%", margin: "20px auto", textAlign: "center" }}>
-      <h2>Discount</h2>
+<br></br>
+<h4 style={{ fontSize: '30px' }}><b>DISCOUNT</b></h4>
+<br></br>
+
       {texts.length > 0 ? (
         texts.map((item) => (
           <div key={item._id} style={{ 
             borderBottom: "1px solid #ccc", 
             padding: "10px", 
-            fontSize: "16px", 
+            fontSize: "14px", 
             color: "#333",
             textAlign: "justify" // Adjusted for better readability
           }}>
