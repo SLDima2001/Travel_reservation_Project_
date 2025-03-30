@@ -164,13 +164,16 @@ function Days8() {
   
   const linkStyle = {
     color: 'black',
-    textDecoration: 'none',
-    margin: '0 10px',
+  textDecoration: 'none',
+  margin: '0 10px',
+  whiteSpace: 'nowrap', // Ensures single-line display
   };
   
   const navLinksStyle = {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'flex-start',
+    gap:'20px',
   };
   const buttonContainerStyle = {
     display: 'flex',
@@ -440,43 +443,13 @@ function Days8() {
 
   return (
     <div style={appStyle}>
-      <header style={header1style} >
-      <div style={navbarStyle}>
-      {/* Left Section: Logo */}
-      <div>
-        <h1 style={{ margin: '0', padding: '0', fontSize: '1em' }}><b>info@lahirutours.co.uk</b></h1>
-      </div>
       
-      {/* Center Section: Navigation Links */}
-      <div style={navLinksStyle}>
-       
-      </div>
-      
-      {/* Right Section: Buttons */}
-      <div style={buttonContainerStyle}>
-      <a href="https://www.facebook.com/share/TLHsJswwmcxzvuiA/?mibextid=WC7FNe" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaFacebook size={30} />
-        </a>
-        <a href="https://www.instagram.com/lahiru_tours_sri_lanka?igsh=azYyenZxaHZ6aW1y&utm_source=qr" target="_blank" rel="noopener noreferrer" style={{ padding: '10px 20px', cursor: 'pointer' }}>
-          <FaInstagram size={30} />
-        </a>
-        <a href="https://vm.tiktok.com/ZGevyQ8eB/" target="_blank" rel="noopener noreferrer" style={{  padding: '10px 20px', cursor: 'pointer' }} >
-          <FaTiktok size={30}  />
-  </a>
-
-        {/* Add more buttons as needed */}
-      </div>
-
-    </div>
-
-            
-      </header>
 
       <section style={headerStyle}>
       <div style={navbarStyle2}>
   {/* Left Section: Logo */}
   <div>
-  <img src="https://lahirutours.co.uk/photos/logo.gif" alt="Logo" style={logoImgStyle} />
+  <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
   </div>
   
   {/* Center Section: Navigation Links */}
@@ -485,16 +458,38 @@ function Days8() {
     <a href="/About" style={linkStyle}>About Us</a>
     <a href="/TourPackages" style={linkStyle}><b>Tour Packages</b></a>
     <a href="/ContactUS" style={linkStyle}>Contact</a>
-    <a href="/feedback" style={linkStyle}>FAQ</a>
+    <a href="/feedback" style={linkStyle}>Feedback</a>
   </div>
-  <div style={{ marginRight: '10px',marginTop:'19px',display:'flex',gap:'10px' }}> {/* Right-aligned content */}
-     <Link to="/signin" style={bookbuttonstyle}>
-     <b>Login</b>
-               </Link> 
-               <Link to="/register" style={bookbuttonstyle3}>
-     <b>Register</b>
-               </Link> 
-     </div>
+  <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
+      <Link to="/signin" style={{ 
+          padding: '10px 20px', // Medium size padding
+          fontSize: '16px', // Medium font size
+          borderRadius: '25px', // Smooth rounded edges
+          backgroundColor: '#4CAF50', 
+          color: 'white', 
+          textDecoration: 'none', 
+          border: 'none', 
+          cursor: 'pointer',
+          minWidth: '100px', // Ensures consistent size
+          textAlign: 'center' 
+      }}>
+          <b>Login</b>
+      </Link>
+      <Link to="/register" style={{ 
+          padding: '10px 20px', // Medium size padding
+          fontSize: '16px', // Medium font size
+          borderRadius: '25px', // Smooth rounded edges
+          backgroundColor: '#2196F3', 
+          color: 'white', 
+          textDecoration: 'none', 
+          border: 'none', 
+          cursor: 'pointer',
+          minWidth: '100px', // Ensures consistent size
+          textAlign: 'center' 
+      }}>
+          <b>Register</b>
+      </Link>
+  </div>
   
   
 </div>
@@ -935,9 +930,9 @@ This day in Bentota offers a perfect blend of relaxation, adventure, and cultura
           <h4 style={footerSectionTitleStyle}>Contact Us</h4>
           
           <p><u>
-            info@lahirutours.co.uk<br />
-            admin@lahirutours.co.uk <br />
-            payments@lahirutours.co.uk <br />
+          info@travelsrilanka.co.uk<br />
+            admin@travelsrilanka.co.uk <br />
+            payments@travelsrilanka.co.uk <br />
            </u>
           </p>
         </div>
