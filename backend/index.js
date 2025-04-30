@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { PORT, mongodbURL, stripeSecretKey } from './config.js';
 import Route from './routes/Route.js';
-import emailRoute from './routes/emailRoute.js';
+
 import Stripe from 'stripe';
 import 'dotenv/config';
 import contactusRoute from './routes/ContactusRoute.js';
@@ -208,7 +208,6 @@ app.delete("/api/auth/users/:id", async (req, res) => {
 
 // Routes for other functionality
 app.use('/feedback', Route);
-app.use('/send-email', emailRoute);
 app.use('/contact', contactusRoute);
 app.use('/payment', PaymentRoute);
 
