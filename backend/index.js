@@ -51,27 +51,131 @@ const User = mongoose.model("User", userSchema);
 const TextSchema = new mongoose.Schema({ text: String });
 const TextModel = mongoose.model("Text", TextSchema);
 
-app.post("/getRecommendations", async (req, res) => {
-  try {
-    const { weather, duration, interests, guestType, budget } = req.body;
-    if (!weather || !duration || !interests || !guestType || !budget) {
-      return res.status(400).json({ error: "All fields are required" });
-    }
-    const userPrompt = `Generate a travel destinations for a ${guestType} traveler visiting Sri Lanka. Weather: ${weather}, Duration: ${duration} days, Interests: ${interests}, Budget: ${budget}.`;
-    
-    const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
-      { model: "openai/gpt-4o", messages: [{ role: "user", content: userPrompt }], max_tokens: 300 },
-      { headers: { Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`, "Content-Type": "application/json" } }
-    );
 
-    res.json({ recommendation: response.data.choices[0].message.content });
+
+
+
+
+
+const API_KEY = "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";
+console.log("API Key configured:", !!API_KEY);
+
+app.post("/getRecommendations", async (req, res) => {
+  const { weather, duration, interests, guestType, budget } = req.body;
+
+  if (!weather || !duration || !interests || !guestType || !budget) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const prompt = `
+You are a professional travel planner.
+
+Suggest a personalized travel plan for Sri Lanka based on these preferences:
+- Weather preference: ${weather}
+- Trip duration: ${duration} days
+- Interests: ${interests}
+- Guest type: ${guestType}
+- Budget level: ${budget}
+
+Provide specific destination suggestions, and a day-wise outline if possible.
+`;
+
+  try {
+    console.log("Using API key:", API_KEY ? "Key is present" : "Key is missing");
+
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "http://localhost:3000", // Required by OpenRouter
+        "X-Title": "Travel Recommender App"
+      },
+      body: JSON.stringify({
+        model: "mistralai/mistral-7b-instruct",
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    // Log complete response details for debugging
+    const responseStatus = response.status;
+    const responseText = await response.text();
+    
+    console.log("API Response Status:", responseStatus);
+    console.log("API Response Text (first 500 chars):", responseText.substring(0, 500));
+    
+    // Try to parse the response as JSON
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error("Failed to parse API response as JSON:", e);
+      return res.status(500).json({ error: "Invalid response from API", details: responseText.substring(0, 200) });
+    }
+
+    if (!response.ok) {
+      return res.status(response.status).json({ 
+        error: "API error", 
+        details: data.error || "Unknown error" 
+      });
+    }
+
+    const aiReply = data.choices?.[0]?.message?.content;
+
+    if (!aiReply) {
+      return res.status(500).json({ 
+        error: "No content in API response", 
+        details: data 
+      });
+    }
+
+    res.json({ recommendation: aiReply });
   } catch (error) {
-    console.error("Error in /getRecommendations:", error.message);
-    res.status(500).json({ error: "Internal server error", details: error.message });
+    console.error("API error:", error.message);
+    res.status(500).json({ error: "Failed to get AI recommendations.", details: error.message });
   }
 });
 
+// Add a fallback endpoint that doesn't use API
+app.post("/getRecommendationsFallback", (req, res) => {
+  const { weather, duration, interests, guestType, budget } = req.body;
+  
+  // Generate a recommendation based on user inputs
+  const recommendation = `
+# Sri Lanka Travel Plan
+
+## Based on your preferences:
+- Weather: ${weather}
+- Duration: ${duration} days
+- Interests: ${interests}
+- Travelers: ${guestType}
+- Budget: ${budget}
+
+## Recommended Itinerary:
+
+### Day 1-2: Colombo
+- Explore the capital city
+- Visit Galle Face Green
+- Shop at local markets
+
+### Day 3-4: Kandy
+- Visit the Temple of the Tooth
+- Explore the Royal Botanical Gardens
+- Experience local cultural shows
+
+### Day 5-6: Beaches
+- Relax at Mirissa or Unawatuna Beach
+- Try water sports and whale watching
+
+### Day 7: Departure
+- Last-minute shopping
+- Cultural experiences
+
+This itinerary is customized for your preferences. Enjoy your trip to Sri Lanka!
+  `;
+  
+  res.json({ recommendation: recommendation });
+});
 
 
 
