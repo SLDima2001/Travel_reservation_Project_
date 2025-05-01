@@ -192,6 +192,9 @@ This itinerary is customized for your preferences. Enjoy your trip to Sri Lanka!
 
 
 
+
+
+
 app.post("/api/save-text", async (req, res) => {
   try {
     const newText = new TextModel({ text: req.body.text });
@@ -231,6 +234,9 @@ app.delete("/api/delete-text/:id", async (req, res) => {
     res.status(500).json({ error: "Error deleting text" });
   }
 });
+
+
+
 
 
 
@@ -307,6 +313,10 @@ app.delete("/api/auth/users/:id", async (req, res) => {
     res.status(500).json({ success: false, message: "Error deleting user", error: error.message });
   }
 });
+
+
+
+
 
 
 
