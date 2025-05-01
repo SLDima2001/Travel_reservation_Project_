@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import * as jwt from "jwt-decode";
 
 const AdminSignIn = () => {
   const [username, setUsername] = useState("");
@@ -9,22 +10,74 @@ const AdminSignIn = () => {
 
   // Hardcoded Admin Users
   const admins = [
-    { username: "admin1", password: "password123" },
-    { username: "admin2", password: "securePass456" },
+    { username: "admin1", password: "password123", email: "admin1@example.com", isAdmin: true },
+    { username: "admin2", password: "securePass456", email: "admin2@example.com", isAdmin: true },
   ];
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwt.jwtDecode(token);
+        
+        // Check if token is still valid
+        const currentTime = Date.now() / 1000;
+        if (decoded.exp > currentTime && decoded.isAdmin) {
+          navigate("/admindashboard"); // Redirect to dashboard if already logged in
+        } else {
+          // Token expired or not admin
+          localStorage.removeItem("token");
+        }
+      } catch (error) {
+        // Invalid token
+        localStorage.removeItem("token");
+      }
+    }
+  }, [navigate]);
+
+  const generateToken = (user) => {
+    // In a real app, this would be done on the server
+    // This is just a client-side simulation for demo purposes
+    
+    const now = Date.now() / 1000;
+    const expirationTime = now + 3600; // 1 hour from now
+    
+    // Create a token-like structure
+    const tokenPayload = {
+      sub: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      iat: now,
+      exp: expirationTime
+    };
+    
+    // In a real app, you would sign this with a secret key on the server
+    // Here we're just encoding it as base64 for simulation
+    const tokenString = JSON.stringify(tokenPayload);
+    const base64Token = btoa(tokenString);
+    
+    return `fake-jwt.${base64Token}.signature`;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
 
-    // Check if the entered username and password match an admin user
-    const isAdmin = admins.some(
+    // Find the admin user
+    const adminUser = admins.find(
       (admin) => admin.username === username && admin.password === password
     );
 
-    if (isAdmin) {
-      alert("Login Successful!");
-      navigate("/admindashboard"); // Redirect to Admin Dashboard
+    if (adminUser) {
+      // Generate JWT token
+      const token = generateToken(adminUser);
+      
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+      
+      // Navigate to dashboard
+      navigate("/admindashboard");
     } else {
       setError("Invalid admin credentials");
     }
@@ -59,7 +112,14 @@ const AdminSignIn = () => {
           />
         </div>
 
-        <button type="submit" style={styles.button}>Sign In</button>
+        <button 
+          type="submit" 
+          style={styles.button}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          Sign In
+        </button>
        
       </form>
     </div>

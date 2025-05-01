@@ -1,15 +1,61 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import * as jwt from "jwt-decode"; // Import as namespace instead
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const user = { email: "admin@example.com" }; // Dummy user for testing
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/adminsignin"); // Redirect guest users to sign-in page
+    // Authentication check using JWT
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      // No token found, redirect to login
+      navigate("/adminsignin");
+      return;
     }
-  }, [user, navigate]);
+
+    try {
+      // Verify and decode the token
+      const decoded = jwt.jwtDecode(token);
+      
+      // Check if token is expired
+      const currentTime = Date.now() / 1000;
+      if (decoded.exp < currentTime) {
+        // Token expired
+        localStorage.removeItem("token");
+        navigate("/adminsignin");
+        return;
+      }
+      
+      // Check if user has admin role
+      if (!decoded.isAdmin) {
+        // User is not an admin
+        navigate("/unauthorized");
+        return;
+      }
+      
+      // Valid admin user
+      setUser(decoded);
+    } catch (error) {
+      // Invalid token
+      localStorage.removeItem("token");
+      navigate("/adminsignin");
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/adminsignin");
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!user) return null; // Prevent UI from rendering before redirect
 
@@ -48,8 +94,8 @@ const AdminDashboard = () => {
       gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
       gap: "20px",
       marginTop: "30px",
-      height:'auto',
-      width:'auto',
+      height: 'auto',
+      width: 'auto',
     },
     card: {
       background: "rgba(255, 255, 255, 0.1)",
@@ -85,7 +131,7 @@ const AdminDashboard = () => {
         
         <div
           style={styles.sidebarItem}
-          onClick={() => navigate("/")}
+          onClick={handleLogout}
           onMouseEnter={(e) => (e.target.style.background = "#666")}
           onMouseLeave={(e) => (e.target.style.background = "#444")}
         >

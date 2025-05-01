@@ -1,21 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const adminlogin = () => {
+  // Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      // Verify token validity
+      verifyToken(token);
+    }
+  }, []);
+
+  // Verify token validity
+  const verifyToken = async (token) => {
+    try {
+      const response = await axios.get("http://localhost:5555/api/auth/verify", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (response.data.success) {
+        navigate("/userdashboard");
+      }
+    } catch (error) {
+      // Token is invalid or expired, clear it
+      localStorage.removeItem("token");
+      localStorage.removeItem("userEmail");
+    }
+  };
+
+  const adminLogin = () => {
     navigate("/adminsignin");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); // Clear previous errors
+    setLoading(true);
 
     try {
       const response = await axios.post("http://localhost:5555/api/auth/login", {
@@ -24,24 +53,34 @@ const SignIn = () => {
       });
 
       if (response.data.success) {
-        localStorage.setItem("userEmail", email); // Save email
-  alert("Login Successful!");
-  navigate("/userdashboard");
+        // Store the JWT token and user info
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("userId", response.data.userId || "");
+        
+        // Set the default authorization header for future requests
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+        
+        // Alert user and redirect
+        alert("Login Successful!");
+        navigate("/userdashboard");
       } else {
-        setError(response.data.message);
+        setError(response.data.message || "Login failed");
       }
     } catch (error) {
-      setError("Invalid login credentials");
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || "Invalid login credentials");
+      } else {
+        setError("Server error or connection problem");
+      }
       console.error("Login Error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div style={styles.container}>
-
-
-
-
       <div style={styles.background}></div>
       <form onSubmit={handleSubmit} style={styles.form}>
         <h2 style={styles.title}>Sign In</h2>
@@ -55,6 +94,7 @@ const SignIn = () => {
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             required 
+            disabled={loading}
           />
         </div>
 
@@ -66,26 +106,31 @@ const SignIn = () => {
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             required 
+            disabled={loading}
           />
         </div>
 
-        <button type="submit" style={styles.button}>Sign In</button>
-        <a href="/register" style={styles.link}>If You Haven't an Account</a>
+        <button 
+          type="submit" 
+          style={loading ? {...styles.button, opacity: 0.7} : styles.button}
+          disabled={loading}
+        >
+          {loading ? "Signing In..." : "Sign In"}
+        </button>
+        
+        <div style={styles.links}>
+          <a href="/forgot-password" style={styles.passwordReset}>Forgot Password?</a>
+          <a href="/register" style={styles.link}>Don't have an account? Register</a>
+        </div>
       </form>
+      
       <button 
-onClick={adminlogin} 
-style={{
-  position: "absolute",
-  top: "10px",
-  right: "10px",
-  backgroundColor: "#4caf50",
-  color: "white",
-  border: "none",
-  padding: "10px 20px",
-  borderRadius: "5px",
-  fontSize: "1rem",
-  cursor: "pointer",
-}}>Admin Login</button>
+        onClick={adminLogin} 
+        style={styles.adminButton}
+        disabled={loading}
+      >
+        Admin Login
+      </button>
     </div>
   );
 };
@@ -99,7 +144,7 @@ const styles = {
     height: "100vh",
     position: "relative",
     overflow: "hidden",
-    background: "linear-gradient(135deg,rgb(136, 199, 225),rgb(172, 166, 166))",
+    background: "linear-gradient(135deg, rgb(136, 199, 225), rgb(172, 166, 166))",
   },
   background: {
     position: "absolute",
@@ -112,13 +157,25 @@ const styles = {
     filter: "blur(8px)",
     zIndex: 0,
   },
+  links: {
+    marginTop: "15px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
   link: {
-    color: "#ff4d4d",
-    fontSize: "16px",
-    display: "block",
-    marginTop: "10px",
+    color: "#4a6fa5",
+    fontSize: "14px",
     textDecoration: "none",
-    fontWeight: "bold",
+    fontWeight: "500",
+    transition: "color 0.3s ease",
+  },
+  passwordReset: {
+    color: "#666",
+    fontSize: "14px",
+    textDecoration: "none",
+    fontWeight: "500",
+    transition: "color 0.3s ease",
   },
   form: {
     position: "relative",
@@ -159,21 +216,39 @@ const styles = {
   },
   button: {
     width: "100%",
-    padding: "10px",
-    backgroundColor: "rgba(35, 115, 206, 0.7)",
+    padding: "12px",
+    backgroundColor: "rgba(35, 115, 206, 0.8)",
     color: "white",
     border: "none",
     borderRadius: "5px",
     fontSize: "16px",
     cursor: "pointer",
-    transition: "background 0.3s ease",
+    transition: "background 0.3s ease, transform 0.1s ease",
+    fontWeight: "500",
   },
-  buttonHover: {
-    backgroundColor: "#e04e50",
+  adminButton: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    backgroundColor: "#4caf50",
+    color: "white",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    fontSize: "1rem",
+    cursor: "pointer",
+    boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+    transition: "background 0.3s ease, transform 0.1s ease",
   },
   error: {
-    color: "red",
-    marginBottom: "10px",
+    color: "#e74c3c",
+    marginBottom: "15px",
+    fontSize: "14px",
+    fontWeight: "500",
+    backgroundColor: "rgba(231, 76, 60, 0.1)",
+    padding: "8px",
+    borderRadius: "4px",
+    textAlign: "center",
   },
 };
 
