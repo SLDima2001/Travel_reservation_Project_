@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faUtensils, faCar,faEnvelope,faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
+import { faBed, faUtensils, faCar, faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { FaFacebook, FaInstagram,FaTiktok } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
 import axios from "axios";
 
 function TourPackages() {
@@ -17,14 +17,14 @@ function TourPackages() {
   
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth);
+      setIsMobile(window.innerWidth <= 768);
+      setWindowWidth(window.innerWidth);
     };
-
-   
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  
   useEffect(() => {
     fetchTexts();
   }, []);
@@ -37,8 +37,6 @@ function TourPackages() {
       console.error("Error fetching texts", error);
     }
   };
-
-
 
   const packages = [
     { id: 1, name: '6 Days Sri Lanka Tour', imgSrc: 'https://lahirutours.co.uk/photos/Day6.gif', link: '/Days6', price: 100, description: 'Enjoy a 6 Days tour exploring beautiful destinations.' },
@@ -59,7 +57,7 @@ function TourPackages() {
     flexDirection: 'column',
     minHeight: '100vh',
     overflow: 'hidden',
-    width:isMobile?'100%':'100%',
+    width: isMobile ? '100%' : '100%',
   };
 
   const headerStyle = {
@@ -72,35 +70,36 @@ function TourPackages() {
 
   const logoImgStyle = {
     height: 'auto',
-    width:'120px',
+    width: '120px',
     marginTop: '0px',
   };
+  
   const bookbuttonstyle = {
     display: isMobile ? 'none' : 'block', // Hide on mobile
     backgroundColor: '#90EE90',
-      color: 'white',
-      padding: '20px 20px',
-      border: 'none',
-      borderRadius: '4px',
-      cursor: 'pointer',
-      fontSize: '1.6em',
-      marginTop: '0px',
-      };
-    const bookbuttonstyle3 = {
-        display: isMobile ? 'none' : 'block', // Hide on mobile
-        backgroundColor: '#4682B4',
-          color: 'white',
-          padding: '20px 20px',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontSize: '1.6em',
-          marginTop: '0px',
-          };
-
+    color: 'white',
+    padding: '20px 20px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '1.6em',
+    marginTop: '0px',
+  };
   
+  const bookbuttonstyle3 = {
+    display: isMobile ? 'none' : 'block', // Hide on mobile
+    backgroundColor: '#4682B4',
+    color: 'white',
+    padding: '20px 20px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '1.6em',
+    marginTop: '0px',
+  };
+
   const header1style = {
-    display:'flex',
+    display: 'flex',
     justifyContent: 'center',
     padding: '0px',
     backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.5)',
@@ -130,8 +129,9 @@ function TourPackages() {
     transform: isNavbarVisible ? 'translateY(0)' : 'translateY()',
     zIndex: '1000',
   };
+  
   const navbarStyle2 = {
-    fontSize:isMobile?'15px':'auto',
+    fontSize: isMobile ? '15px' : 'auto',
     backgroundColor: 'white',
     color: 'white',
     display: 'flex',
@@ -139,31 +139,30 @@ function TourPackages() {
     alignItems: 'center',
     width: 'auto',
     height: '120px',
-    padding: '10px 0px 0px  ',
+    padding: '10px 0px 0px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
     zIndex: '1000',
   };
+  
   const linkStyle = {
     color: 'black',
     textDecoration: 'none',
     margin: '0 10px',
     whiteSpace: 'nowrap', // Ensures single-line display
-};
+  };
 
-  
   const navLinksStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    gap:'20px',
+    gap: '20px',
   };
+  
   const buttonContainerStyle = {
     display: 'flex',
     alignItems: 'center',
     gap: '10px', // Adds space between buttons
   };
-
-
 
   const mainContentStyle = {
     flex: '1',
@@ -174,41 +173,39 @@ function TourPackages() {
   };
 
   const tourPackagesStyle = {
-    display:isMobile?'relative':'',
-    padding:isMobile? '0px':'20px',
+    display: isMobile ? 'relative' : '',
+    padding: isMobile ? '0px' : '20px',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    alignContent:'center',
-    width:isMobile?'auto':'auto',
-    height:isMobile?'auto':'auto',
-    flex:isMobile?'1':'4',
+    alignContent: 'center',
+    width: isMobile ? 'auto' : 'auto',
+    height: isMobile ? 'auto' : 'auto',
+    flex: isMobile ? '1' : '4',
   };
 
   const packageOptionsStyle = {
-    display:isMobile? 'inline-block':'flex',
+    display: isMobile ? 'inline-block' : 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
     margin: '00px 0',
-    alignContent:'center',
+    alignContent: 'center',
   };
 
   const packageStyle = (isHovered) => ({
     textAlign: 'center',
     backgroundColor: '#ffffff',
-    border:'2px solid #4682B4',
+    border: '2px solid #4682B4',
     padding: '20px',
     borderRadius: '10px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     margin: '10px',
     transform: isHovered ? 'translateY(-20px)' : 'translateY(10px)',
     transition: 'transform 3s ease, box-shadow 2s ease',
-    //zIndex: isHovered ? '1' : '5',
-    //position: 'center',
-    flex:isMobile?'1':'4',
-    gap:isMobile?'100px' : '20px',
-    width:isMobile?'200px':'auto',
-    alignItems:'center',
-    display:isMobile?'':'flex',
+    flex: isMobile ? '1' : '4',
+    gap: isMobile ? '100px' : '20px',
+    width: isMobile ? '200px' : 'auto',
+    alignItems: 'center',
+    display: isMobile ? '' : 'flex',
   });
 
   const blurredBackgroundStyle = {
@@ -217,12 +214,12 @@ function TourPackages() {
   };
 
   const packageImgStyle = {
-    marginTop:'20px',
-    marginBottom:'20px',
+    marginTop: '20px',
+    marginBottom: '20px',
     height: '150px',
-    width:'150px',
+    width: '150px',
     borderRadius: '10px',
-    justifyContent:'center',
+    justifyContent: 'center',
   };
 
   const h4Style = {
@@ -259,16 +256,33 @@ function TourPackages() {
     padding: '0',
     margin: '0',
   };
+  
   const footerListItemStyle = {
     marginBottom: '10px',
   };
-
 
   const socialLinkStyle = {
     color: 'white',
     textDecoration: 'none',
   };
 
+  // New style for discount section
+  const discountSectionStyle = {
+    width: "80%", 
+    margin: "20px auto", 
+    textAlign: "center",
+    border: "2px solid #4682B4",
+    borderRadius: "10px",
+    padding: "20px",
+    backgroundColor: "#f9f9f9"
+  };
+
+  // Style for discount container that won't override the formatted content
+  const discountContainerStyle = {
+    padding: "10px",
+    borderBottom: "1px solid #ccc",
+    marginBottom: "10px"
+  };
 
   const handlePackageClick = (link) => {
     window.location.href = link;
@@ -276,65 +290,56 @@ function TourPackages() {
 
   return (
     <div style={appStyle}>
-      
       <section style={headerStyle}>
-      <div style={navbarStyle2}>
-  {/* Left Section: Logo */}
-  <div>
-  <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
-  </div>
-  
-  {/* Center Section: Navigation Links */}
-  <div style={navLinksStyle}>
-    <a href="/" style={linkStyle}>Home</a>
-    <a href="/About" style={linkStyle}>About Us</a>
-    <a href="/TourPackages" style={linkStyle}><b>Tour Packages</b></a>
-    <a href="/ContactUS" style={linkStyle}>Contact</a>
-    <a href="/feedback" style={linkStyle}>Feedback</a>
-  </div>
-  <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}> {/* Right-aligned content */}
-      <Link to="/signin" style={{ 
-          padding: '10px 20px', // Medium size padding
-          fontSize: '16px', // Medium font size
-          borderRadius: '25px', // Smooth rounded edges
-          backgroundColor: '#4CAF50', 
-          color: 'white', 
-          textDecoration: 'none', 
-          border: 'none', 
-          cursor: 'pointer',
-          minWidth: '100px', // Ensures consistent size
-          textAlign: 'center' 
-      }}>
-          <b>Login</b>
-      </Link>
-      <Link to="/register" style={{ 
-          padding: '10px 20px', // Medium size padding
-          fontSize: '16px', // Medium font size
-          borderRadius: '25px', // Smooth rounded edges
-          backgroundColor: '#2196F3', 
-          color: 'white', 
-          textDecoration: 'none', 
-          border: 'none', 
-          cursor: 'pointer',
-          minWidth: '100px', // Ensures consistent size
-          textAlign: 'center' 
-      }}>
-          <b>Register</b>
-      </Link>
-  </div>
-  
-  
-</div>
-        
-        
-        
+        <div style={navbarStyle2}>
+          {/* Left Section: Logo */}
+          <div>
+            <img src="./images/logo.jpeg" alt="Logo" style={logoImgStyle} />
+          </div>
+          
+          {/* Center Section: Navigation Links */}
+          <div style={navLinksStyle}>
+            <a href="/" style={linkStyle}>Home</a>
+            <a href="/About" style={linkStyle}>About Us</a>
+            <a href="/TourPackages" style={linkStyle}><b>Tour Packages</b></a>
+            <a href="/ContactUS" style={linkStyle}>Contact</a>
+            <a href="/feedback" style={linkStyle}>Feedback</a>
+          </div>
+          <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}>
+            <Link to="/signin" style={{ 
+                padding: '10px 20px',
+                fontSize: '16px',
+                borderRadius: '25px',
+                backgroundColor: '#4CAF50', 
+                color: 'white', 
+                textDecoration: 'none', 
+                border: 'none', 
+                cursor: 'pointer',
+                minWidth: '100px',
+                textAlign: 'center' 
+            }}>
+                <b>Login</b>
+            </Link>
+            <Link to="/register" style={{ 
+                padding: '10px 20px',
+                fontSize: '16px',
+                borderRadius: '25px',
+                backgroundColor: '#2196F3', 
+                color: 'white', 
+                textDecoration: 'none', 
+                border: 'none', 
+                cursor: 'pointer',
+                minWidth: '100px',
+                textAlign: 'center' 
+            }}>
+                <b>Register</b>
+            </Link>
+          </div>
+        </div>
       </section>
       
       <main style={isNavbarVisible ? { ...mainContentStyle, ...blurredBackgroundStyle } : mainContentStyle}>
-      <div style={{ marginRight: '0%',marginTop:'19px' }}> {/* Right-aligned content */}
-    
-  
-  </div>
+        <div style={{ marginRight: '0%', marginTop: '19px' }}></div>
         <section style={tourPackagesStyle}>
           <div style={packageOptionsStyle}>
             {packages.map((pkg) => (
@@ -348,41 +353,33 @@ function TourPackages() {
                 <a href={pkg.link}>
                   <img src={pkg.imgSrc} alt={pkg.name} style={packageImgStyle} />
                   <h4 style={h4Style}><br />{pkg.name}</h4>
-                 
                   {hoveredPackage === pkg.id && <p>{pkg.description}</p>}
-                  <p style={{color:'blue'}}><u>Click For More....</u></p>
+                  <p style={{color: 'blue'}}><u>Click For More....</u></p>
                 </a>
               </div>
             ))}
           </div>
 
-<div style={{ width: "80%", margin: "20px auto", textAlign: "center" }}>
-<br></br>
-<h4 style={{ fontSize: '30px' }}><b>DISCOUNT</b></h4>
-<br></br>
+          {/* Modified discount section */}
+          <div style={discountSectionStyle}>
+            <h4 style={{ fontSize: '30px', color: '#4682B4', marginBottom: '20px' }}>
+              <b>SPECIAL DISCOUNTS</b>
+            </h4>
 
-      {texts.length > 0 ? (
-        texts.map((item) => (
-          <div key={item._id} style={{ 
-            borderBottom: "1px solid #ccc", 
-            padding: "10px", 
-            fontSize: "14px", 
-            color: "#333",
-            textAlign: "justify" // Adjusted for better readability
-          }}>
-            <div dangerouslySetInnerHTML={{ __html: item.text }} />
+            {texts.length > 0 ? (
+              texts.map((item) => (
+                <div key={item._id} style={discountContainerStyle}>
+                  {/* Using dangerouslySetInnerHTML without inline styles that override formatting */}
+                  <div dangerouslySetInnerHTML={{ __html: item.text }} />
+                </div>
+              ))
+            ) : (
+              <p>No special discounts available at the moment.</p>
+            )}
           </div>
-        ))
-      ) : (
-        <p>No texts available</p>
-      )}
-    </div>
-
-          
         </section>
-
-        
       </main>
+      
       <footer style={footerStyle}>
         <div style={footerSectionStyle}>
           <h4 style={footerSectionTitleStyle}>Relaxing</h4>
@@ -411,13 +408,11 @@ function TourPackages() {
         </div>
         <div style={footerSectionStyle}>
           <h4 style={footerSectionTitleStyle}>Contact Us</h4>
-          
           <p><u>
-          info@travelsrilanka.co.uk<br />
+            info@travelsrilanka.co.uk<br />
             admin@travelsrilanka.co.uk <br />
             payments@travelsrilanka.co.uk <br />
-            </u>
-          </p>
+          </u></p>
         </div>
       </footer>
     </div>

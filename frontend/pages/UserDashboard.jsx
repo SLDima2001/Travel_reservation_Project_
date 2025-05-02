@@ -156,14 +156,36 @@ const UserDashboard = () => {
 
   const handleUpdatePayment = async () => {
     try {
-      const response = await Axios.put(`http://localhost:5555/payment/${paymentEditData._id}`, paymentEditData);
+      // Ensure all required fields are present
+      const paymentData = {
+        name: paymentEditData.name,
+        email: paymentEditData.email,
+        phoneNumber: paymentEditData.phoneNumber,
+        selectedPackage: paymentEditData.selectedPackage,
+        persons: paymentEditData.persons,
+        fromDate: paymentEditData.fromDate,
+        toDate: paymentEditData.toDate
+      };
+      
+      // Log the data being sent to help with debugging
+      console.log("Sending payment update:", paymentData);
+      
+      const response = await Axios.put(
+        `http://localhost:5555/payment/${paymentEditData._id}`,
+        paymentData
+      );
+      
       if (response.status === 200) {
-        setPaymentList(paymentList.map((payment) => (payment._id === paymentEditData._id ? paymentEditData : payment)));
+        setPaymentList(paymentList.map((payment) => 
+          (payment._id === paymentEditData._id ? paymentEditData : payment)
+        ));
         setEditMode(false);
         setPaymentEditData(null);
+        alert("Payment updated successfully!");
       }
     } catch (error) {
       console.error("Error updating payment:", error);
+      alert("Failed to update payment: " + (error.response?.data?.message || error.message));
     }
   };
 
@@ -414,7 +436,7 @@ const UserDashboard = () => {
                     />
                     <label>Phone Number:</label>
                     <input
-                      type="text"
+                      type="number"
                       value={paymentEditData.phoneNumber}
                       onChange={(e) => setPaymentEditData({ ...paymentEditData, phoneNumber: e.target.value })}
                     />

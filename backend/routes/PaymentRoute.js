@@ -52,30 +52,23 @@ router.get("/:id", async (req, res) => {
 // Route for updating a feedback
 router.put('/:id', async (request, response) => {
     try {
-        if (
-            !name || !email || !phoneNumber || !selectedPackage || !persons || !fromDate || !toDate
-        ) {
-            return response.status(400).send({
-                message: 'Send All required fields: name, email, phone, subject, message',
-            });
-        }
-
         const { id } = request.params;
-
-        // Use Model instead of contactus
+        
+        // Don't destructure and check fields. Instead, let's just update directly
+        // and let Mongoose handle validation based on your schema
+        
         const result = await Model.findByIdAndUpdate(id, request.body, { new: true });
 
         if (!result) {
             return response.status(404).json({ message: 'Payment not found' });
         }
 
-        return response.status(200).send({ message: 'Payment Updated successfully', data: result });
+        return response.status(200).send({ message: 'Payment updated successfully', data: result });
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
     }
 });
-
 // Route for deleting a feedback
 router.delete('/:id', async (request, response) => {
     try {
