@@ -270,7 +270,7 @@ function TourPackages() {
   const discountSectionStyle = {
     width: "80%", 
     margin: "20px auto", 
-    textAlign: "center",
+    textAlign: "justify",
     border: "2px solid #4682B4",
     borderRadius: "10px",
     padding: "20px",
