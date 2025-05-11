@@ -41,7 +41,7 @@ function Days6() {
 
 
   const bookNow = () => {
-    navigate("/signin"); // Change "/booking" to your target booking page route
+    navigate("/BookingForm"); // Change "/booking" to your target booking page route
   };
 
 
