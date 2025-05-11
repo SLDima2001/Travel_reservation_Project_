@@ -153,6 +153,9 @@ const UserDashboard = () => {
       console.error("Error updating feedback:", error);
     }
   };
+   const bookNow = () => {
+    navigate("/BookingForm"); // Change "/booking" to your target booking page route
+  };
 
   const handleUpdatePayment = async () => {
     try {
@@ -198,6 +201,27 @@ const UserDashboard = () => {
 
   return (
     <div className="user-dashboard">
+      <button>
+        <button 
+      onClick={bookNow} 
+      style={{
+        padding: "10px 15px",
+        background: "#333",
+        color: "#fff",
+        fontSize: "16px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "0.3s",
+        justifyContent:"flex-start",
+        alignItems:"center"
+      }}
+      onMouseEnter={(e) => (e.target.style.backgroundColor = "#45a049")}
+      onMouseLeave={(e) => (e.target.style.backgroundColor = "#4CAF50")}
+    >
+      Book Now
+    </button>
+      </button>
       <h2 className="dashboard-title">User Dashboard</h2>
       {user ? (
         <>

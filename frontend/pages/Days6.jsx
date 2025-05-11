@@ -744,7 +744,26 @@ The next part of this exciting Sri Lanka tour package is a visit to Galle, a cit
               
             </div>
             
-            
+            <button 
+      onClick={bookNow} 
+      style={{
+        padding: "10px 15px",
+        background: "#333",
+        color: "#fff",
+        fontSize: "16px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        transition: "0.3s",
+        justifyContent:"flex-start",
+        alignItems:"center"
+      }}
+      onMouseEnter={(e) => (e.target.style.backgroundColor = "#45a049")}
+      onMouseLeave={(e) => (e.target.style.backgroundColor = "#4CAF50")}
+    >
+      Book Now
+    </button>
+          
           
         </section>
         
