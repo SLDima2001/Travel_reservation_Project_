@@ -302,7 +302,7 @@ function ContactUS() {
   };
   
   const buttonStyle = {
-    backgroundColor: '#4682B4',
+    backgroundColor: '#3a86ff',
     color: 'white',
     border: 'none',
     padding: '15px 50px',
@@ -535,13 +535,13 @@ function ContactUS() {
     padding: '10px',
     borderRadius: '8px',
     display: 'inline-block',
-    borderBottom: '3px solid #4682B4',
+    borderBottom: '3px solid #3a86ff',
   };
   
   const formStyle = {
     backgroundColor: 'rgba(255, 255, 255, 0.95)',
     padding: '30px',
-    border: '2px solid #3498db',
+    border: '2px solid #3a86ff',
     borderRadius: '10px',
     boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
     fontFamily: 'Arial, sans-serif',

@@ -386,7 +386,7 @@ const Feedback = () => {
     formContainer: {
       backgroundColor: 'rgba(255, 255, 255, 0.95)',
       padding: '30px',
-      border: '2px solid #3498db',
+      border: '2px solid #3a86ff',
       borderRadius: '10px',
       boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
       fontFamily: 'Arial, sans-serif',
@@ -405,7 +405,7 @@ const Feedback = () => {
       padding: '10px',
       borderRadius: '8px',
       display: 'inline-block',
-      borderBottom: '3px solid #4682B4',
+      borderBottom: '3px solid #3a86ff',
     },
     fieldContainer: {
       marginBottom: '15px',
@@ -422,11 +422,11 @@ const Feedback = () => {
     inputStyle: (fieldName) => ({
       width: 'calc(100% - 20px)',
       padding: '12px',
-      border: touched[fieldName] && errors[fieldName] ? '1px solid #e74c3c' : '1px solid #ccc',
+      border: touched[fieldName] && errors[fieldName] ? '1px solidrgb(223, 89, 74)' : '1px solid #ccc',
       borderRadius: '5px',
       fontSize: '16px',
       transition: 'border 0.3s ease, box-shadow 0.3s ease',
-      boxShadow: touched[fieldName] && errors[fieldName] ? '0 0 5px rgba(231, 76, 60, 0.5)' : 'none',
+      boxShadow: touched[fieldName] && errors[fieldName] ? '0 0 5px rgba(227, 60, 42, 0.5)' : 'none',
     }),
     textarea: {
       width: 'calc(100% - 20px)',
@@ -785,7 +785,7 @@ const Feedback = () => {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 type="submit"
-                style={{...styles.button, backgroundColor: '#3498db'}}
+                style={{...styles.button, backgroundColor: '#3a86ff'}}
                 disabled={loading}
               >
                 {loading ? 'Submitting...' : 'Submit Feedback'}
