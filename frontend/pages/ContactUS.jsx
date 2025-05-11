@@ -60,10 +60,11 @@ function ContactUS() {
   };
 
   const validatePhone = (value) => {
-    if (!value.trim()) return 'Phone number is required';
-    if (value.trim().length < 8) return 'Please enter a valid phone number';
-    return '';
-  };
+  if (!value.trim()) return '';
+  if (value.length !== 10) return 'Please enter a valid phone number (10 digits)';
+  if (value[0] !== '0') return 'Please enter a valid phone number starting with 0';
+  return '';
+};
 
   const validateSubject = (value) => {
     if (!value.trim()) return 'Subject is required';
