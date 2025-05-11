@@ -754,7 +754,7 @@ const Feedback = () => {
                   type="button"
                   onClick={() => handleRatingChange(index)}
                   style={{
-                    fontSize: '32px',
+                    fontSize: '60px',
                     cursor: 'pointer',
                     color: rating >= index ? '#f39c12' : '#ccc',
                     background: 'none',
