@@ -85,6 +85,13 @@ const Feedback = () => {
     const phoneRegex = /^\d{7,15}$/; // Regex to check for 7 to 15 digits
     return phoneRegex.test(number);
   };
+  const validatePhone = (value) => {
+  if (!value.trim()) return '';
+  if (value.length !== 10) return 'Please enter a valid phone number (10 digits)';
+  if (value[0] !== '0') return 'Please enter a valid phone number starting with 0';
+  return '';
+};
+
 
   const isNameValid = (name) => {
     // Allow letters, spaces, hyphens, and apostrophes, minimum 2 characters
@@ -111,12 +118,7 @@ const Feedback = () => {
     return '';
   };
 
-  const validatePhone = (value) => {
-    if (value.trim() && !isValidPhone(value)) {
-      return 'Please enter a valid phone number (7-15 digits)';
-    }
-    return '';
-  };
+  
 
   const validateSubject = (value) => {
     if (!value.trim()) return 'Subject is required';
@@ -663,23 +665,37 @@ const Feedback = () => {
 
           {/* Phone Number field */}
           <div style={styles.fieldContainer}>
-            <label style={styles.label} htmlFor="phonenumber">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phonenumber"
-              value={phonenumber}
-              onChange={handlePhonenumberChange}
-              onBlur={() => handleBlur('phonenumber')}
-              style={styles.inputStyle('phonenumber')}
-              placeholder="Enter your phone number (optional)"
-              className={touched.phonenumber && errors.phonenumber ? 'shake' : ''}
-            />
-            {touched.phonenumber && errors.phonenumber && (
-              <div style={styles.errorMessage}>{errors.phonenumber}</div>
-            )}
-          </div>
+  <label style={styles.label} htmlFor="phonenumber">
+    Phone Number
+  </label>
+  <input
+    type="tel"
+    id="phonenumber"
+    value={phonenumber}
+    onChange={(e) => {
+      // Only accept numeric input
+      const value = e.target.value.replace(/[^0-9]/g, '');
+      // Validate phone number length
+      if (value.length > 10) {
+        return;
+      }
+      if (value.length === 10 && value[0] !== '0') {
+        return;
+      }
+      setPhonenumber(value);
+      if (touched.phonenumber) {
+        setErrors({ ...errors, phonenumber: validatePhone(value) });
+      }
+    }}
+    onBlur={() => handleBlur('phonenumber')}
+    style={styles.inputStyle('phonenumber')}
+    placeholder="Enter your phone number (optional)"
+    className={touched.phonenumber && errors.phonenumber ? 'shake' : ''}
+  />
+  {touched.phonenumber && errors.phonenumber && (
+    <div style={styles.errorMessage}>{errors.phonenumber}</div>
+  )}
+</div>
 
           {/* Subject field */}
           <div style={styles.fieldContainer}>
