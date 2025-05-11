@@ -81,6 +81,7 @@ const AdminDashboard = () => {
       cursor: "pointer",
       borderRadius: "5px",
       textAlign: "center",
+      fontSize: '20px',
       transition: "background 0.3s ease",
     },
     mainContent: {
@@ -111,7 +112,7 @@ const AdminDashboard = () => {
     <div style={styles.container}>
       {/* Sidebar */}
       <div style={styles.sidebar}>
-        <h3>Admin Panel</h3>
+        <h3 style={{ fontSize: '25px' }}>Admin Panel</h3>
         <div
           style={styles.sidebarItem}
           onClick={() => navigate("/admindashboard")}
@@ -141,46 +142,55 @@ const AdminDashboard = () => {
 
       {/* Main Content */}
       <div style={styles.mainContent}>
-        <h2>Welcome, {user.email}!</h2>
-        <p>This is your admin dashboard.</p>
+        <br></br>
+      <h3 style={{ fontSize: '35px' }}>Welcome, {user.email}!</h3>
+<p style={{ fontSize: '25px' }}>This is your admin dashboard.</p>
+<br></br>
 
         {/* Cards Section */}
-        <div style={styles.cardContainer}>
-          <div
-            style={styles.card}
-            onClick={() => navigate("/ShowContactus")}
-            onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-          >
-            <h3>Contact Us Details</h3>
-          </div>
-          <div
-            style={styles.card}
-            onClick={() => navigate("/ShowFeedback")}
-            onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-          >
-            <h3>Feedback Details</h3>
-          </div>
-          <div
-            style={styles.card}
-            onClick={() => navigate("/paymentdetails")}
-            onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-          >
-            <h3>Payment Details</h3>
-          </div>
+        <div
+  style={{
+    ...styles.cardContainer,
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '20px', // adjust spacing between cards
+  }}
+>
+  <div
+    style={styles.card}
+    onClick={() => navigate("/ShowContactus")}
+    onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+  >
+    
+    <h3 style={{ fontSize: '30px' }}>Contact Us Details</h3>
+  </div>
+  <div
+    style={styles.card}
+    onClick={() => navigate("/ShowFeedback")}
+    onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+  >
+    <h3 style={{ fontSize: '30px' }}>Feedback Details</h3>
+  </div>
+  <div
+    style={styles.card}
+    onClick={() => navigate("/paymentdetails")}
+    onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+  >
+    <h3 style={{ fontSize: '30px' }}>Payment Details</h3>
+  </div>
+  <div
+    style={styles.card}
+    onClick={() => navigate("/creatediscount")}
+    onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
+    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+  >
+    <h3 style={{ fontSize: '30px' }}>Special Offers and Deals</h3>
+  </div>
+</div>
 
-          <div
-            style={styles.card}
-            onClick={() => navigate("/creatediscount")}
-            onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-          >
-            <h3>Discount Create</h3>
-          </div>
-          
-        </div>
       </div>
     </div>
   );
