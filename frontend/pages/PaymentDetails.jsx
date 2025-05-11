@@ -33,6 +33,9 @@ const PaymentDetails = () => {
 
   const [searchQuery, setSearchQuery] = useState(""); // For search functionality
   const handleDelete = async (id) => {
+    const confirmed = window.confirm("Are you sure you want to delete this payment?");
+    if (!confirmed) return;
+  
     try {
       await fetch(`http://localhost:5555/payment/${id}`, {
         method: "DELETE",
@@ -42,6 +45,7 @@ const PaymentDetails = () => {
       console.error("Error deleting payment:", error);
     }
   };
+  
 
   const handleEditClick = (payment) => {
     setEditingPayment(payment._id);

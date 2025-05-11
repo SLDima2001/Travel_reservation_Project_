@@ -119,7 +119,7 @@ const SignIn = () => {
         </button>
         
         <div style={styles.links}>
-          <a href="/forgot-password" style={styles.passwordReset}>Forgot Password?</a>
+          
           <a href="/register" style={styles.link}>Don't have an account? Register</a>
         </div>
       </form>
