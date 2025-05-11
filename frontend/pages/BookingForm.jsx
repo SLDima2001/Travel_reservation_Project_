@@ -373,7 +373,7 @@ fontSize:isMobile?'1.5em':'3em'
         
         <div>
           <img
-            src="https://lahirutours.co.uk/photos/logo.gif"
+            src="./images/logo.jpeg"
             alt="Logo"
             style={styles.logoImg}
           />

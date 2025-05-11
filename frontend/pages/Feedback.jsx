@@ -3,14 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import Axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import { useSpring, animated } from 'react-spring';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faUtensils, faCar, faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { FaFacebook, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { FaFacebook, FaInstagram } from 'react-icons/fa';
 
-const Feedback = ({ backgroundImageUrl }) => {
+const Feedback = () => {
   // Form state
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -20,6 +16,17 @@ const Feedback = ({ backgroundImageUrl }) => {
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
+  
+  // Form validation states
+  const [touched, setTouched] = useState({
+    firstname: false,
+    lastname: false,
+    email: false,
+    phonenumber: false,
+    subject: false,
+    message: false,
+    rating: false
+  });
   
   // Form errors state
   const [errors, setErrors] = useState({
@@ -33,12 +40,29 @@ const Feedback = ({ backgroundImageUrl }) => {
   });
 
   // UI state
-  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   
   const navigate = useNavigate();
+
+  // Animation style for error feedback
+  const animationStyle = `
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .shake {
+      animation: shake 0.5s ease-in-out;
+    }
+  `;
 
   // Handle window resize
   useEffect(() => {
@@ -57,10 +81,9 @@ const Feedback = ({ backgroundImageUrl }) => {
     return regex.test(email);
   };
 
-  const isValidPhone = (phone) => {
-    // Allow only numbers, minimum 7 digits and maximum 15 digits
-    const regex = /^\d{7,15}$/;
-    return regex.test(phone);
+  const isValidPhone = (number) => {
+    const phoneRegex = /^\d{7,15}$/; // Regex to check for 7 to 15 digits
+    return phoneRegex.test(number);
   };
 
   const isNameValid = (name) => {
@@ -69,119 +92,173 @@ const Feedback = ({ backgroundImageUrl }) => {
     return regex.test(name);
   };
 
-  // Validate form on submit
-  const validateForm = () => {
-    let formIsValid = true;
-    const newErrors = {
-      firstname: '',
-      lastname: '',
-      email: '',
-      phonenumber: '',
-      subject: '',
-      message: '',
-      rating: ''
-    };
-
-    // First name validation
-    if (!firstname.trim()) {
-      newErrors.firstname = 'First name is required';
-      formIsValid = false;
-    } else if (!isNameValid(firstname)) {
-      newErrors.firstname = 'Please enter a valid first name (2-50 characters)';
-      formIsValid = false;
-    }
-
-    // Last name validation
-    if (!lastname.trim()) {
-      newErrors.lastname = 'Last name is required';
-      formIsValid = false;
-    } else if (!isNameValid(lastname)) {
-      newErrors.lastname = 'Please enter a valid last name (2-50 characters)';
-      formIsValid = false;
-    }
-
-    // Email validation
-    if (!email.trim()) {
-      newErrors.email = 'Email is required';
-      formIsValid = false;
-    } else if (!isValidEmail(email)) {
-      newErrors.email = 'Please enter a valid email address';
-      formIsValid = false;
-    }
-
-    // Phone number validation (optional but validate if provided)
-    if (phonenumber.trim() && !isValidPhone(phonenumber)) {
-      newErrors.phonenumber = 'Please enter a valid phone number (7-15 digits)';
-      formIsValid = false;
-    }
-
-    // Subject validation
-    if (!subject.trim()) {
-      newErrors.subject = 'Subject is required';
-      formIsValid = false;
-    } else if (subject.trim().length < 3) {
-      newErrors.subject = 'Subject must be at least 3 characters';
-      formIsValid = false;
-    }
-
-    // Message validation
-    if (!message.trim()) {
-      newErrors.message = 'Message is required';
-      formIsValid = false;
-    } else if (message.trim().length < 10) {
-      newErrors.message = 'Message must be at least 10 characters';
-      formIsValid = false;
-    }
-
-    // Rating validation
-    if (rating === 0) {
-      newErrors.rating = 'Please provide a rating';
-      formIsValid = false;
-    }
-
-    setErrors(newErrors);
-    return formIsValid;
+  // Individual field validators
+  const validateFirstname = (value) => {
+    if (!value.trim()) return 'First name is required';
+    if (!isNameValid(value)) return 'Please enter a valid first name (2-50 characters)';
+    return '';
   };
 
-  // Handle input change with validation
-  const handleInputChange = (e, setter, field, validator = null) => {
-    const value = e.target.value;
-    setter(value);
-    
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors({...errors, [field]: ''});
+  const validateLastname = (value) => {
+    if (!value.trim()) return 'Last name is required';
+    if (!isNameValid(value)) return 'Please enter a valid last name (2-50 characters)';
+    return '';
+  };
+
+  const validateEmail = (value) => {
+    if (!value.trim()) return 'Email is required';
+    if (!isValidEmail(value)) return 'Please enter a valid email address';
+    return '';
+  };
+
+  const validatePhone = (value) => {
+    if (value.trim() && !isValidPhone(value)) {
+      return 'Please enter a valid phone number (7-15 digits)';
     }
-    
-    // Validate on blur or specific validators
-    if (e.type === 'blur' && validator) {
-      let errorMessage = '';
-      
-      if (!value.trim()) {
-        errorMessage = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
-      } else if (!validator(value)) {
-        switch(field) {
-          case 'firstname':
-          case 'lastname':
-            errorMessage = 'Please enter valid name (letters only)';
-            break;
-          case 'email':
-            errorMessage = 'Please enter a valid email address';
-            break;
-          case 'phonenumber':
-            errorMessage = 'Please enter a valid phone number (digits only)';
-            break;
-          default:
-            errorMessage = 'Invalid input';
-        }
-      }
-      
-      setErrors({...errors, [field]: errorMessage});
+    return '';
+  };
+
+  const validateSubject = (value) => {
+    if (!value.trim()) return 'Subject is required';
+    if (value.trim().length < 3) return 'Subject must be at least 3 characters';
+    return '';
+  };
+
+  const validateMessage = (value) => {
+    if (!value.trim()) return 'Message is required';
+    if (value.trim().length < 10) return 'Message must be at least 10 characters';
+    return '';
+  };
+
+  const validateRating = (value) => {
+    if (value === 0) return 'Please provide a rating';
+    return '';
+  };
+
+  // Validate all fields
+  const validateForm = () => {
+    const firstnameError = validateFirstname(firstname);
+    const lastnameError = validateLastname(lastname);
+    const emailError = validateEmail(email);
+    const phonenumberError = validatePhone(phonenumber);
+    const subjectError = validateSubject(subject);
+    const messageError = validateMessage(message);
+    const ratingError = validateRating(rating);
+
+    setErrors({
+      firstname: firstnameError,
+      lastname: lastnameError,
+      email: emailError,
+      phonenumber: phonenumberError,
+      subject: subjectError,
+      message: messageError,
+      rating: ratingError
+    });
+
+    return !(firstnameError || lastnameError || emailError || phonenumberError || subjectError || messageError || ratingError);
+  };
+
+  // Handle blur event (when user moves away from input)
+  const handleBlur = (field) => {
+    setTouched({
+      ...touched,
+      [field]: true
+    });
+
+    // Validate the specific field
+    switch (field) {
+      case 'firstname':
+        setErrors({ ...errors, firstname: validateFirstname(firstname) });
+        break;
+      case 'lastname':
+        setErrors({ ...errors, lastname: validateLastname(lastname) });
+        break;
+      case 'email':
+        setErrors({ ...errors, email: validateEmail(email) });
+        break;
+      case 'phonenumber':
+        setErrors({ ...errors, phonenumber: validatePhone(phonenumber) });
+        break;
+      case 'subject':
+        setErrors({ ...errors, subject: validateSubject(subject) });
+        break;
+      case 'message':
+        setErrors({ ...errors, message: validateMessage(message) });
+        break;
+      case 'rating':
+        setErrors({ ...errors, rating: validateRating(rating) });
+        break;
+      default:
+        break;
     }
+  };
+
+  // Handle form field changes
+  const handleFirstnameChange = (e) => {
+    setFirstname(e.target.value);
+    if (touched.firstname) {
+      setErrors({ ...errors, firstname: validateFirstname(e.target.value) });
+    }
+  };
+
+  const handleLastnameChange = (e) => {
+    setLastname(e.target.value);
+    if (touched.lastname) {
+      setErrors({ ...errors, lastname: validateLastname(e.target.value) });
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (touched.email) {
+      setErrors({ ...errors, email: validateEmail(e.target.value) });
+    }
+  };
+
+  const handlePhonenumberChange = (e) => {
+    // Only accept numeric input
+    const value = e.target.value.replace(/[^0-9]/g, '');
+    setPhonenumber(value);
+    if (touched.phonenumber) {
+      setErrors({ ...errors, phonenumber: validatePhone(value) });
+    }
+  };
+
+  const handleSubjectChange = (e) => {
+    setSubject(e.target.value);
+    if (touched.subject) {
+      setErrors({ ...errors, subject: validateSubject(e.target.value) });
+    }
+  };
+
+  const handleMessageChange = (e) => {
+    setMessage(e.target.value);
+    if (touched.message) {
+      setErrors({ ...errors, message: validateMessage(e.target.value) });
+    }
+  };
+
+  const handleRatingChange = (newRating) => {
+    setRating(newRating);
+    setTouched({...touched, rating: true});
+    setErrors({...errors, rating: validateRating(newRating)});
   };
 
   // Handle form submission
-  const handleSaveFeedback = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Mark all fields as touched
+    setTouched({
+      firstname: true,
+      lastname: true,
+      email: true,
+      phonenumber: true,
+      subject: true,
+      message: true,
+      rating: true
+    });
+    
     // Run form validation before submission
     if (!validateForm()) {
       toast.error('Please fix the errors in the form');
@@ -226,6 +303,15 @@ const Feedback = ({ backgroundImageUrl }) => {
     setSubject('');
     setMessage('');
     setRating(0);
+    setTouched({
+      firstname: false,
+      lastname: false,
+      email: false,
+      phonenumber: false,
+      subject: false,
+      message: false,
+      rating: false
+    });
     setErrors({
       firstname: '',
       lastname: '',
@@ -237,19 +323,16 @@ const Feedback = ({ backgroundImageUrl }) => {
     });
   };
 
-  // Toggle navbar visibility
-  const toggleNavbar = () => {
-    setIsNavbarVisible(!isNavbarVisible);
-  };
-
+  // Styling - following the ContactUS component pattern
   const styles = {
     app: {
       textAlign: 'center',
       fontFamily: 'Arial, sans-serif',
-      backgroundColor: '#e0f7fa',
+      backgroundColor: 'white',
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
+      overflow: 'hidden',
     },
     headerStyle: {
       padding: '0px',
@@ -258,49 +341,10 @@ const Feedback = ({ backgroundImageUrl }) => {
       width: '100%',
       zIndex: '1000',
     },
-    header1style: {
-      justifyContent: 'center',
-      padding: '0px',
-      backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.5)',
-      color: '',
-      width: '100%',
-      transition: 'background-color 0.3s ease',
-      marginTop: '0px',
-    },
     logoImgStyle: {
       height: 'auto',
       width: '120px',
       marginTop: '0px',
-    },
-    h1: {
-      fontSize: '4em',
-      margin: '0',
-      color: '#333',
-      padding: '10px',
-      borderRadius: '8px',
-      display: 'inline-block',
-      marginLeft: '-1600px',
-    },
-    para: {
-      color: 'black',
-      marginLeft: '-1600px',
-    },
-    loginButton: {
-      marginLeft: '2000px',
-      padding: '10px',
-      marginTop: '-100px',
-    },
-    navbarStyle: {
-      color: 'white',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: '100%',
-      height: '70px',
-      padding: '10px 20px',
-      transition: 'transform 0.3s ease',
-      transform: isNavbarVisible ? 'translateY(0)' : 'translateY()',
-      zIndex: '1000',
     },
     navbarStyle2: {
       fontSize: isMobile ? '15px' : 'auto',
@@ -327,107 +371,123 @@ const Feedback = ({ backgroundImageUrl }) => {
       justifyContent: 'flex-start',
       gap: '20px',
     },
-    buttonContainerStyle: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '10px',
-    },
     container: {
-      padding: isMobile ? '10px' : '30px',
-      marginTop: isMobile ? '200px' : '0px',
-      marginBottom: isMobile ? '100px' : '0px',
+      padding: '20px',
+      backgroundColor: '#e0f7fa',
+      justifyContent: 'center',
       backgroundSize: 'cover',
       display: 'flex',
-      justifyContent: 'center',
       alignItems: 'center',
+      minHeight: '60vh',
+      marginBottom: isMobile ? '200px' : '100px',
     },
-    wrapper: {
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    formContainer: {
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+      padding: '30px',
       border: '2px solid #3498db',
       borderRadius: '10px',
+      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+      fontFamily: 'Arial, sans-serif',
+      position: 'center',
+      zIndex: '999',
+      minHeight: '80vh',
+      marginTop: isMobile ? '300px' : '100px',
+      marginBottom: isMobile ? 'auto' : '100px',
       width: '600px',
-      padding: '20px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      transition: 'all 0.3s ease',
     },
     title: {
-      fontSize: '24px',
-      marginBottom: '20px',
-      textAlign: 'center',
+      fontSize: '2.5em',
+      margin: '0 0 30px 0',
+      color: '#333',
+      padding: '10px',
+      borderRadius: '8px',
+      display: 'inline-block',
+      borderBottom: '3px solid #4682B4',
     },
-    formGroup: {
+    fieldContainer: {
       marginBottom: '15px',
+      position: 'relative',
     },
-    formLabel: {
+    label: {
       display: 'block',
       fontSize: '16px',
       marginBottom: '5px',
       color: '#333',
+      textAlign: 'left',
+      fontWeight: 'bold',
     },
-    formInput: {
+    inputStyle: (fieldName) => ({
       width: 'calc(100% - 20px)',
-      padding: '10px',
-      border: '1px solid #ccc',
+      padding: '12px',
+      border: touched[fieldName] && errors[fieldName] ? '1px solid #e74c3c' : '1px solid #ccc',
       borderRadius: '5px',
       fontSize: '16px',
-    },
-    errorInput: {
+      transition: 'border 0.3s ease, box-shadow 0.3s ease',
+      boxShadow: touched[fieldName] && errors[fieldName] ? '0 0 5px rgba(231, 76, 60, 0.5)' : 'none',
+    }),
+    textarea: {
       width: 'calc(100% - 20px)',
-      padding: '10px',
-      border: '1px solid #e74c3c',
+      padding: '12px',
+      marginBottom: '25px',
       borderRadius: '5px',
       fontSize: '16px',
+      minHeight: '150px',
+      resize: 'none',
     },
     errorMessage: {
       color: '#e74c3c',
       fontSize: '14px',
       marginTop: '5px',
+      marginBottom: '10px',
       textAlign: 'left',
-    },
-    formTextarea: {
-      width: 'calc(100% - 20px)',
-      padding: '10px',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-      fontSize: '16px',
-      height: '100px',
-      resize: 'none',
-    },
-    errorTextarea: {
-      width: 'calc(100% - 20px)',
-      padding: '10px',
-      border: '1px solid #e74c3c',
-      borderRadius: '5px',
-      fontSize: '16px',
-      height: '100px',
-      resize: 'none',
+      fontWeight: 'normal',
+      animation: 'fadeIn 0.3s',
     },
     ratingContainer: {
       display: 'flex',
       justifyContent: 'center',
+      margin: '20px 0',
+      gap: '5px',
     },
-    ratingStar: {
-      fontSize: '70px',
+    ratingStar: (index) => ({
+      fontSize: '32px',
       cursor: 'pointer',
-      color: '#ccc',
-    },
-    rated: {
-      color: '#f39c12',
-    },
-    formActions: {
+      color: rating >= index ? '#f39c12' : '#ccc',
+      transition: 'color 0.3s, transform 0.2s',
+      padding: '5px',
+      '&:hover': {
+        transform: 'scale(1.2)',
+      }
+    }),
+    buttonContainer: {
       display: 'flex',
       justifyContent: 'space-between',
-      marginTop: '20px',
+      marginTop: '30px',
     },
-    formButton: {
-      padding: '10px 20px',
+    button: {
+      padding: '12px 25px',
       borderRadius: '5px',
       cursor: 'pointer',
       fontSize: '16px',
       border: 'none',
+      fontWeight: 'bold',
+      transition: 'background-color 0.3s, transform 0.2s',
     },
-    saveButton: {
+    submitButton: {
       backgroundColor: '#3498db',
       color: 'white',
+      '&:hover': {
+        backgroundColor: '#2980b9',
+        transform: 'translateY(-2px)',
+      }
+    },
+    resetButton: {
+      backgroundColor: '#95a5a6',
+      color: 'white',
+      '&:hover': {
+        backgroundColor: '#7f8c8d',
+      }
     },
     cancelButton: {
       backgroundColor: '#e74c3c',
@@ -436,13 +496,39 @@ const Feedback = ({ backgroundImageUrl }) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      '&:hover': {
+        backgroundColor: '#c0392b',
+      }
     },
-    resetButton: {
-      backgroundColor: '#95a5a6',
+    requiredLabel: {
+      color: '#e74c3c',
+      marginLeft: '3px',
+    },
+    loginButton: {
+      padding: '10px 20px',
+      fontSize: '16px',
+      borderRadius: '25px',
+      backgroundColor: '#4CAF50',
       color: 'white',
-      marginRight: '10px',
+      textDecoration: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      minWidth: '100px',
+      textAlign: 'center'
     },
-    footer: {
+    registerButton: {
+      padding: '10px 20px',
+      fontSize: '16px',
+      borderRadius: '25px',
+      backgroundColor: '#2196F3',
+      color: 'white',
+      textDecoration: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      minWidth: '100px',
+      textAlign: 'center'
+    },
+    footerStyle: {
       padding: '20px',
       backgroundColor: '#4682B4',
       color: 'white',
@@ -450,19 +536,9 @@ const Feedback = ({ backgroundImageUrl }) => {
       marginTop: 'auto',
       width: '100%',
       display: 'flex',
-      justifyContent: 'left',
-      flexWrap: 'wrap',
-      position: 'relative',
-    },
-    footerStyle: {
-      padding: '20px',
-      backgroundColor: '#4682B4',
-      color: 'white',
-      textAlign: 'left',
-      marginTop: '0%',
-      display: 'flex',
       justifyContent: 'space-between',
       flexWrap: 'wrap',
+      position: 'relative',
     },
     footerSectionStyle: {
       marginBottom: '20px',
@@ -481,48 +557,16 @@ const Feedback = ({ backgroundImageUrl }) => {
     footerListItemStyle: {
       marginBottom: '10px',
     },
-    socialMediaStyle: {
-      display: 'flex',
-      gap: '10px',
-    },
     socialLinkStyle: {
       color: 'white',
       textDecoration: 'none',
     },
-    bookbuttonstyle: {
-      display: isMobile ? 'none' : 'block',
-      backgroundColor: '#90EE90',
-      color: 'white',
-      padding: '10px 20px',
-      border: 'none',
-      borderRadius: '25px',
-      cursor: 'pointer',
-      fontSize: '30px',
-      marginTop: '0px',
-      textAlign: 'center',
-      minWidth: '20px',
-    },
-    bookbuttonstyle3: {
-      display: isMobile ? 'none' : 'block',
-      padding: '10px 20px',
-      fontSize: '30px',
-      borderRadius: '25px',
-      backgroundColor: '#2196F3',
-      color: 'white',
-      textDecoration: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      minWidth: '20px',
-      textAlign: 'center'
-    },
-    requiredLabel: {
-      color: '#e74c3c',
-      marginLeft: '3px',
-    }
   };
 
   return (
     <div style={styles.app}>
+      <style>{animationStyle}</style>
+      
       <section style={styles.headerStyle}>
         <div style={styles.navbarStyle2}>
           {/* Left Section: Logo */}
@@ -538,11 +582,12 @@ const Feedback = ({ backgroundImageUrl }) => {
             <a href="/ContactUS" style={styles.linkStyle}>Contact</a>
             <a href="/feedback" style={styles.linkStyle}><b>Feedback</b></a>
           </div>
+          
           <div style={{ marginRight: '10px', marginTop: '19px', display: 'flex', gap: '10px', justifyContent: 'flex-end', width: '100%' }}>
-            <Link to="/signin" style={styles.bookbuttonstyle}>
+            <Link to="/signin" style={styles.loginButton}>
               <b>Login</b>
             </Link>
-            <Link to="/register" style={styles.bookbuttonstyle3}>
+            <Link to="/register" style={styles.registerButton}>
               <b>Register</b>
             </Link>
           </div>
@@ -550,216 +595,198 @@ const Feedback = ({ backgroundImageUrl }) => {
       </section>
 
       <div style={styles.container}>
-        <div style={styles.wrapper}>
-          <h1 style={styles.title}>Create Feedback</h1>
+        <form style={styles.formContainer} onSubmit={handleSubmit} noValidate>
+          <h2 style={styles.title}>Create Feedback</h2>
 
-          <div>
-            {/* First Name field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                First Name <span style={styles.requiredLabel}>*</span>
-              </label>
-              <input
-                type="text"
-                value={firstname}
-                onChange={(e) => handleInputChange(
-                  e, 
-                  setFirstname, 
-                  'firstname', 
-                  isNameValid
-                )}
-                onBlur={(e) => handleInputChange(
-                  e, 
-                  setFirstname, 
-                  'firstname', 
-                  isNameValid
-                )}
-                style={errors.firstname ? styles.errorInput : styles.formInput}
-                placeholder="Enter your first name"
-              />
-              {errors.firstname && <div style={styles.errorMessage}>{errors.firstname}</div>}
-            </div>
+          {/* First Name field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="firstname">
+              First Name <span style={styles.requiredLabel}>*</span>
+            </label>
+            <input
+              type="text"
+              id="firstname"
+              value={firstname}
+              onChange={handleFirstnameChange}
+              onBlur={() => handleBlur('firstname')}
+              style={styles.inputStyle('firstname')}
+              placeholder="Enter your first name"
+              className={touched.firstname && errors.firstname ? 'shake' : ''}
+              required
+            />
+            {touched.firstname && errors.firstname && (
+              <div style={styles.errorMessage}>{errors.firstname}</div>
+            )}
+          </div>
 
-            {/* Last Name field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                Last Name <span style={styles.requiredLabel}>*</span>
-              </label>
-              <input
-                type="text"
-                value={lastname}
-                onChange={(e) => handleInputChange(
-                  e, 
-                  setLastname, 
-                  'lastname',
-                  isNameValid
-                )}
-                onBlur={(e) => handleInputChange(
-                  e, 
-                  setLastname, 
-                  'lastname', 
-                  isNameValid
-                )}
-                style={errors.lastname ? styles.errorInput : styles.formInput}
-                placeholder="Enter your last name"
-              />
-              {errors.lastname && <div style={styles.errorMessage}>{errors.lastname}</div>}
-            </div>
+          {/* Last Name field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="lastname">
+              Last Name <span style={styles.requiredLabel}>*</span>
+            </label>
+            <input
+              type="text"
+              id="lastname"
+              value={lastname}
+              onChange={handleLastnameChange}
+              onBlur={() => handleBlur('lastname')}
+              style={styles.inputStyle('lastname')}
+              placeholder="Enter your last name"
+              className={touched.lastname && errors.lastname ? 'shake' : ''}
+              required
+            />
+            {touched.lastname && errors.lastname && (
+              <div style={styles.errorMessage}>{errors.lastname}</div>
+            )}
+          </div>
 
-            {/* Email field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                Email <span style={styles.requiredLabel}>*</span>
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => handleInputChange(
-                  e, 
-                  setEmail, 
-                  'email', 
-                  isValidEmail
-                )}
-                onBlur={(e) => handleInputChange(
-                  e, 
-                  setEmail, 
-                  'email', 
-                  isValidEmail
-                )}
-                style={errors.email ? styles.errorInput : styles.formInput}
-                placeholder="Enter your email address"
-              />
-              {errors.email && <div style={styles.errorMessage}>{errors.email}</div>}
-            </div>
+          {/* Email field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="email">
+              Email <span style={styles.requiredLabel}>*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              onBlur={() => handleBlur('email')}
+              style={styles.inputStyle('email')}
+              placeholder="Enter your email address"
+              className={touched.email && errors.email ? 'shake' : ''}
+              required
+            />
+            {touched.email && errors.email && (
+              <div style={styles.errorMessage}>{errors.email}</div>
+            )}
+          </div>
 
-            {/* Phone Number field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>Phone Number</label>
-              <input
-                type="tel"
-                value={phonenumber}
-                onChange={(e) => {
-                  // Only accept numeric input
-                  const value = e.target.value.replace(/[^0-9]/g, '');
-                  setPhonenumber(value);
-                  if (errors.phonenumber) {
-                    setErrors({...errors, phonenumber: ''});
-                  }
-                }}
-                onBlur={(e) => {
-                  if (phonenumber && !isValidPhone(phonenumber)) {
-                    setErrors({...errors, phonenumber: 'Please enter a valid phone number (7-15 digits)'});
-                  }
-                }}
-                style={errors.phonenumber ? styles.errorInput : styles.formInput}
-                placeholder="Enter your phone number (optional)"
-              />
-              {errors.phonenumber && <div style={styles.errorMessage}>{errors.phonenumber}</div>}
-            </div>
+          {/* Phone Number field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="phonenumber">
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              id="phonenumber"
+              value={phonenumber}
+              onChange={handlePhonenumberChange}
+              onBlur={() => handleBlur('phonenumber')}
+              style={styles.inputStyle('phonenumber')}
+              placeholder="Enter your phone number (optional)"
+              className={touched.phonenumber && errors.phonenumber ? 'shake' : ''}
+            />
+            {touched.phonenumber && errors.phonenumber && (
+              <div style={styles.errorMessage}>{errors.phonenumber}</div>
+            )}
+          </div>
 
-            {/* Subject field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                Subject <span style={styles.requiredLabel}>*</span>
-              </label>
-              <input
-                type="text"
-                value={subject}
-                onChange={(e) => {
-                  setSubject(e.target.value);
-                  if (errors.subject) {
-                    setErrors({...errors, subject: ''});
-                  }
-                }}
-                onBlur={() => {
-                  if (!subject.trim()) {
-                    setErrors({...errors, subject: 'Subject is required'});
-                  } else if (subject.trim().length < 3) {
-                    setErrors({...errors, subject: 'Subject must be at least 3 characters'});
-                  }
-                }}
-                style={errors.subject ? styles.errorInput : styles.formInput}
-                placeholder="Enter subject"
-              />
-              {errors.subject && <div style={styles.errorMessage}>{errors.subject}</div>}
-            </div>
+          {/* Subject field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="subject">
+              Subject <span style={styles.requiredLabel}>*</span>
+            </label>
+            <input
+              type="text"
+              id="subject"
+              value={subject}
+              onChange={handleSubjectChange}
+              onBlur={() => handleBlur('subject')}
+              style={styles.inputStyle('subject')}
+              placeholder="Enter subject"
+              className={touched.subject && errors.subject ? 'shake' : ''}
+              required
+            />
+            {touched.subject && errors.subject && (
+              <div style={styles.errorMessage}>{errors.subject}</div>
+            )}
+          </div>
 
-            {/* Message field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                Message <span style={styles.requiredLabel}>*</span>
-              </label>
-              <textarea
-                value={message}
-                onChange={(e) => {
-                  setMessage(e.target.value);
-                  if (errors.message) {
-                    setErrors({...errors, message: ''});
-                  }
-                }}
-                onBlur={() => {
-                  if (!message.trim()) {
-                    setErrors({...errors, message: 'Message is required'});
-                  } else if (message.trim().length < 10) {
-                    setErrors({...errors, message: 'Message must be at least 10 characters'});
-                  }
-                }}
-                style={errors.message ? styles.errorTextarea : styles.formTextarea}
-                placeholder="Enter your message"
-              />
-              {errors.message && <div style={styles.errorMessage}>{errors.message}</div>}
-            </div>
+          {/* Message field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label} htmlFor="message">
+              Message <span style={styles.requiredLabel}>*</span>
+            </label>
+            <textarea
+              id="message"
+              value={message}
+              onChange={handleMessageChange}
+              onBlur={() => handleBlur('message')}
+              style={{
+                ...styles.textarea,
+                border: touched.message && errors.message ? '1px solid #e74c3c' : '1px solid #ccc',
+                boxShadow: touched.message && errors.message ? '0 0 5px rgba(231, 76, 60, 0.5)' : 'none',
+              }}
+              placeholder="Enter your message"
+              className={touched.message && errors.message ? 'shake' : ''}
+              required
+            ></textarea>
+            {touched.message && errors.message && (
+              <div style={styles.errorMessage}>{errors.message}</div>
+            )}
+          </div>
 
-            {/* Rating field */}
-            <div style={styles.formGroup}>
-              <label style={styles.formLabel}>
-                Rating <span style={styles.requiredLabel}>*</span>
-              </label>
-              <div style={styles.ratingContainer}>
-                {[...Array(5)].map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => {
-                      setRating(i + 1);
-                      setErrors({...errors, rating: ''});
-                    }}
-                    style={{ ...styles.ratingStar, ...(rating > i && styles.rated) }}
-                    aria-label={`Rate ${i + 1} stars`}
-                  >
-                    ★
-                  </button>
-                ))}
-              </div>
-              {errors.rating && <div style={styles.errorMessage}>{errors.rating}</div>}
-            </div>
-
-            <div style={styles.formActions}>
-              <div>
+          {/* Rating field */}
+          <div style={styles.fieldContainer}>
+            <label style={styles.label}>
+              Rating <span style={styles.requiredLabel}>*</span>
+            </label>
+            <div style={styles.ratingContainer}>
+              {[1, 2, 3, 4, 5].map((index) => (
                 <button
+                  key={index}
                   type="button"
-                  onClick={resetForm}
-                  style={{ ...styles.formButton, ...styles.resetButton }}
+                  onClick={() => handleRatingChange(index)}
+                  style={{
+                    fontSize: '32px',
+                    cursor: 'pointer',
+                    color: rating >= index ? '#f39c12' : '#ccc',
+                    background: 'none',
+                    border: 'none',
+                    padding: '5px',
+                    transition: 'color 0.3s, transform 0.2s',
+                  }}
+                  aria-label={`Rate ${index} stars`}
+                  className={touched.rating && errors.rating ? 'shake' : ''}
                 >
-                  Reset
+                  ★
                 </button>
-              </div>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button
-                  type="button"
-                  onClick={handleSaveFeedback}
-                  style={{ ...styles.formButton, ...styles.saveButton }}
-                  disabled={loading}
-                >
-                  {loading ? 'Submitting...' : 'Submit Feedback'}
-                </button>
-                <Link to="/" style={{ ...styles.formButton, ...styles.cancelButton }}>
-                  Cancel
-                </Link>
-              </div>
+              ))}
+            </div>
+            {touched.rating && errors.rating && (
+              <div style={styles.errorMessage}>{errors.rating}</div>
+            )}
+          </div>
+
+          <div style={styles.buttonContainer}>
+            <button
+              type="button"
+              onClick={resetForm}
+              style={{...styles.button, backgroundColor: '#95a5a6'}}
+            >
+              Reset
+            </button>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <button
+                type="submit"
+                style={{...styles.button, backgroundColor: '#3498db'}}
+                disabled={loading}
+              >
+                {loading ? 'Submitting...' : 'Submit Feedback'}
+              </button>
+              <Link to="/" style={{
+                ...styles.button, 
+                backgroundColor: '#e74c3c',
+                textDecoration: 'none',
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center'
+              }}>
+                Cancel
+              </Link>
             </div>
           </div>
-        </div>
+        </form>
         <ToastContainer position="top-center" autoClose={3000} />
       </div>
 
