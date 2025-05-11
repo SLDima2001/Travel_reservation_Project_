@@ -117,7 +117,7 @@ const TravelRecommender = () => {
                 onChange={handleChange}
               >
                 {key === "weather" &&
-                  ["sunny", "rainy", "cool"].map((option) => (
+                  ["sunny", "misty", "cool","Windy","Humid","Fresh Mountain Air"].map((option) => (
                     <option key={option} value={option}>
                       {option.charAt(0).toUpperCase() + option.slice(1)}
                     </option>

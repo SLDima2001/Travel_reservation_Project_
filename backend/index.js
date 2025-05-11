@@ -57,7 +57,7 @@ const TextModel = mongoose.model("Text", TextSchema);
 
 
 
-const API_KEY = "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";
+const API_KEY = "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";
 console.log("API Key configured:", !!API_KEY);
 
 app.post("/getRecommendations", async (req, res) => {

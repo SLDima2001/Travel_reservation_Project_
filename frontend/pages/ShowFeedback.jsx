@@ -439,6 +439,7 @@ const ShowFeedback = () => {
                           <td style={styles.td}>{feedback.message}</td>
                           <td style={styles.td}>{feedback.rating}</td>
                           <td style={styles.td}>
+                            <div style={{gap:'20px',display:'flex'}}>
                             <button
                               style={styles.editButton}
                               onClick={() => handleEdit(feedback)}
@@ -451,6 +452,7 @@ const ShowFeedback = () => {
                             >
                               Delete
                             </button>
+                            </div>
                           </td>
                         </tr>
                       ))}

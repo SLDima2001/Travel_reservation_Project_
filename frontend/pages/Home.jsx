@@ -858,7 +858,7 @@ Tour PackagesWe offer flexible and engaging packages designed to help you enjoy 
             
           <Link to="/travelreco" style={{ 
         padding: '10px 20px', // Medium size padding
-        fontSize: '16px', // Medium font size
+        fontSize: '30px', // Medium font size
         borderRadius: '25px', // Smooth rounded edges
         backgroundColor: '#4CAF50', 
         color: 'white', 
