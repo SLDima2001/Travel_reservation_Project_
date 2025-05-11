@@ -421,6 +421,7 @@ const ShowFeedback = () => {
                         <th style={styles.th}>First Name</th>
                         <th style={styles.th}>Last Name</th>
                         <th style={styles.th}>Email</th>
+                        <th style={styles.th}>Phone Number</th>
                         <th style={styles.th}>Subject</th>
                         <th style={styles.th}>Message</th>
                         <th style={styles.th}>Rating</th>
@@ -433,6 +434,7 @@ const ShowFeedback = () => {
                           <td style={styles.td}>{feedback.firstname}</td>
                           <td style={styles.td}>{feedback.lastname}</td>
                           <td style={styles.td}>{feedback.email}</td>
+                          <td style={styles.td}>{feedback.phonenumber}</td>
                           <td style={styles.td}>{feedback.subject}</td>
                           <td style={styles.td}>{feedback.message}</td>
                           <td style={styles.td}>{feedback.rating}</td>
